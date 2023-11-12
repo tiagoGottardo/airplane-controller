@@ -1,2 +1,1 @@
-
-void FuncaoTeste();
+void LeArquivo();

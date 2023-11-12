@@ -4,7 +4,7 @@
 
 int main() {
 
-  FuncaoTeste();
-
+  // printf("Tetes");
+  LeArquivo();
   return 0;
 }
