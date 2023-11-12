@@ -1,0 +1,5 @@
+.vscode
+app
+
+build/**
+!build/.gitkeep
