@@ -30,13 +30,6 @@ void SeparaElementos(const char *linha, char ***elementos, int *numElementos) {
   free(linhaCopia2);
 }
 
-void MostraArray(char **array, int numStrings) {
-  for(int i = 0; i < numStrings; i++) {
-    printf("(%s) ", array[i]);
-  }
-  printf("\n");
-}
-
 void LeArquivo() {
   FILE *arquivo = fopen("entrada.txt", "r");
 
