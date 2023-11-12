@@ -1,0 +1,6 @@
+pistas 1
+insere_aviao<f1, 1, A220, SP, 409, 50>
+insere_aviao<f1, 2, A310, , RJ, 676, 130>
+insere_aviao<f1, 3, A320, MADRI, 8754, 660>
+decolar 1 230 290
+iniciasimulacao 40
