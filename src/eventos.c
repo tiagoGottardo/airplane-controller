@@ -1,0 +1,11 @@
+//InicializaPistas
+//InsereAviao
+//Decola
+//IniciaSimulacao
+//Aterrissa
+//Finaliza
+//VerificaColisoes
+//MoveAviao
+//AplicaTempestade
+//AplicaNeblina
+//AplicaTurbulencia
