@@ -27,3 +27,9 @@ typedef struct Aviao {
   struct Aviao *proximo;
   struct Aviao *anterior;
 } Aviao;
+
+void MostraPista(Aviao* pista);
+void AdicionaAviao (Aviao** pista, int value);
+Aviao* InsereNoFim(Aviao **cabeca);
+Aviao* RetiraNoInicio(Aviao** cabeca);
+void Indexa(Aviao* elemento, Aviao** lista);
