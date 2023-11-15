@@ -9,6 +9,35 @@
 // *RetiraPorCodigo
 // Desaloca
 
+void LogGlobal(int n) {
+  Aviao* iterator;
+  for(int i = 0; i < n; i++) {
+    printf("Pista %d:\n", i + 1);
+    if(pista[i]) {
+      iterator = pista[i];
+
+      while(iterator) {
+        printf("Codigo:%3d | Modelo: %15s | Velocidade: %5.0f | Coordenada: (%5.0f;%5.0f;%5.0f)\n", iterator->codigo, iterator->modelo, iterator->velocidade, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+
+        iterator = iterator->proximo;
+      }
+    }
+    printf("\n");
+  }
+
+  printf("Ceu:\n");
+  if(ceu) {
+    iterator = ceu;
+    while(iterator) {
+      printf("Codigo:%3d | Modelo: %15s | Velocidade: %5.0f | Coordenada: (%5.0f;%5.0f;%5.0f)\n", iterator->codigo, iterator->modelo, iterator->velocidade, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+
+      iterator = iterator->proximo;
+    } 
+    printf("\n");
+  }
+  printf("-----------------------------------------------------------------------------------------\n");
+}
+
 //Funcao Ilustrativa
 void MostraPista(Aviao* pista) {
   Aviao* iterator = pista;

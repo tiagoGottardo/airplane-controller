@@ -16,8 +16,8 @@
 #include "../include/listas.h"
 
 int NumeroEntre(int a, int b){
-
-  return (rand() % (b - a)) + a + 1; 
+  if(a <= b)  return (rand() % (b - a + 1)) + a; 
+  else return (rand() % (a - b + 1)) + b;
 }
 
 //Nao Terminado
