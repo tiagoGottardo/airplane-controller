@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include "../include/listas.h"
 
-// IndexaOrdenado
+// *IndexaOrdenado
 // Reordena
 // *InsereNoFim
 // *RetiraNoInicio
-// RetiraPorCodigo
+// *RetiraPorCodigo
 // Desaloca
 
 //Funcao Ilustrativa
@@ -14,18 +14,11 @@ void MostraPista(Aviao* pista) {
   Aviao* iterator = pista;
 
   while(iterator) {
-    printf("%.0f ", iterator->coordenada.z);
+    printf("Z: %.0f | Destino: %s | Codigo: %d\n", iterator->coordenada.z, iterator->destino, iterator->codigo);
   
     iterator = iterator->proximo;
   }
   printf("\n");
-}
-
-//Funcao Ilustrativa
-void AdicionaAviao(Aviao** pista, int value) {
-  Aviao *aviao = InsereNoFim(pista);
-
-  aviao->coordenada.z = value; 
 }
 
 Aviao* InsereNoFim(Aviao** cabeca) {
@@ -54,8 +47,64 @@ void Indexa(Aviao* elemento, Aviao** lista){
   }
 }
 
+Aviao* RetiraPorCodigo(Aviao** lista, int codigo) {
+  if(!(*lista)) return NULL;
+
+  Aviao* iterator = *lista;
+  while(iterator) {
+    if(codigo == iterator->codigo) {
+      if(iterator->proximo) iterator->proximo->anterior = iterator->anterior;
+      if(iterator->anterior) {
+        iterator->anterior->proximo = iterator->proximo;
+      } else {
+        *lista = iterator->proximo;
+      }
+      iterator->proximo = NULL;
+      iterator->anterior = NULL;
+
+      return iterator;
+    }
+
+    iterator = iterator->proximo;
+  }
+  return NULL;
+}
+
+void IndexaOrdenado(Aviao* elemento, Aviao** lista) {
+  if(!(*lista)) {
+    *lista = elemento;
+    return;
+  }
+
+  if(elemento->coordenada.z <= (*lista)->coordenada.z) {
+    (*lista)->anterior = elemento;
+    elemento->proximo = (*lista);
+    (*lista) = elemento;
+    return;
+  } else {
+    Aviao* iterator = (*lista);
+
+    while(iterator->proximo) {
+       
+      if(elemento->coordenada.z <= iterator->proximo->coordenada.z) {
+        elemento->proximo = iterator->proximo;
+        iterator->proximo = elemento;
+        elemento->anterior = iterator;
+        elemento->proximo->anterior = elemento;
+        return;
+      }
+      
+      iterator = iterator->proximo;
+    }
+    
+    iterator->proximo = elemento;
+    elemento->anterior = iterator;
+  }
+  
+}
+
 Aviao* RetiraNoInicio(Aviao** cabeca) {
-  if(!(*cabeca)) {
+  if(!(*cabeca)->proximo) {
     Aviao* retirado = (*cabeca);
     retirado->proximo = NULL;
     *cabeca = NULL;
@@ -71,4 +120,3 @@ Aviao* RetiraNoInicio(Aviao** cabeca) {
 
   return retirado;
 }
-
