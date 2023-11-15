@@ -29,6 +29,8 @@ int main() {
   printf("Ceu Antes:\n");
   MostraPista(ceu);
 
+  Reordena(&ceu, 3);
+
   // printf("Pista 1:\n");
   // MostraPista(pista[0]);
   
