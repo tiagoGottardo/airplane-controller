@@ -36,6 +36,7 @@ void MostraPista(Aviao* pista);
 void AdicionaAviao (Aviao** pista, int value);
 Aviao* InsereNoFim(Aviao **cabeca);
 Aviao* RetiraNoInicio(Aviao** cabeca);
+void IndexaNoInicio(Aviao* elemento, Aviao** lista);
 void IndexaOrdenado(Aviao* elemento, Aviao** lista);
 Aviao* RetiraPorCodigo(Aviao** lista, int codigo);
 void Reordena(Aviao** lista, int codigo);

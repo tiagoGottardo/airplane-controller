@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "../include/listas.h"
 #include "../include/eventos.h"
 // *IndexaOrdenado
+// *IndexaNoInicio
 // *Reordena
 // *InsereNoFim
 // *RetiraNoInicio
@@ -77,8 +79,7 @@ Aviao* InsereNoFim(Aviao** cabeca) {
   return node;
 }
 
-//Funcao Ilustrativa
-void Indexa(Aviao* elemento, Aviao** lista){
+void IndexaNoInicio(Aviao* elemento, Aviao** lista){
   if(!(*lista))  {
     *lista = elemento;
   } else {
