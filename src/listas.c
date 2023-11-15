@@ -1,13 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "../include/listas.h"
 #include "../include/eventos.h"
 // *IndexaOrdenado
+// *IndexaNoInicio
 // *Reordena
 // *InsereNoFim
 // *RetiraNoInicio
 // *RetiraPorCodigo
-// Desaloca
+// *Desaloca
+
+void Desaloca(Aviao** lista) {
+  if((*lista)->proximo) {
+    Desaloca(&(*lista)->proximo);
+  }
+
+  free(*lista);
+  *lista = NULL;
+}
 
 void LogGlobal(int n) {
   Aviao* iterator;
@@ -77,8 +88,7 @@ Aviao* InsereNoFim(Aviao** cabeca) {
   return node;
 }
 
-//Funcao Ilustrativa
-void Indexa(Aviao* elemento, Aviao** lista){
+void IndexaNoInicio(Aviao* elemento, Aviao** lista){
   if(!(*lista))  {
     *lista = elemento;
   } else {
