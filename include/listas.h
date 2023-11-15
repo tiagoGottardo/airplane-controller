@@ -28,6 +28,10 @@ typedef struct Aviao {
   struct Aviao *anterior;
 } Aviao;
 
+extern Aviao** pista;
+extern Aviao* ceu;
+extern Aviao* destino; 
+
 void MostraPista(Aviao* pista);
 void AdicionaAviao (Aviao** pista, int value);
 Aviao* InsereNoFim(Aviao **cabeca);
