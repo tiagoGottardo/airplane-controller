@@ -38,3 +38,4 @@ Aviao* InsereNoFim(Aviao **cabeca);
 Aviao* RetiraNoInicio(Aviao** cabeca);
 void IndexaOrdenado(Aviao* elemento, Aviao** lista);
 Aviao* RetiraPorCodigo(Aviao** lista, int codigo);
+void Reordena(Aviao** lista, int codigo);

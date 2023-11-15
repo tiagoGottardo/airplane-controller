@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/listas.h"
-
+#include "../include/eventos.h"
 // *IndexaOrdenado
-// Reordena
+// *Reordena
 // *InsereNoFim
 // *RetiraNoInicio
 // *RetiraPorCodigo
@@ -19,6 +19,18 @@ void MostraPista(Aviao* pista) {
     iterator = iterator->proximo;
   }
   printf("\n");
+}
+
+//Ilustrativa
+void Reordena(Aviao** lista, int codigo) {
+
+  Aviao* elemento = RetiraPorCodigo(lista, codigo);
+  
+  //Codigo a ser retirado
+  elemento->coordenada.z = NumeroEntre(400, 900);
+
+  IndexaOrdenado(elemento, lista);
+
 }
 
 Aviao* InsereNoFim(Aviao** cabeca) {
