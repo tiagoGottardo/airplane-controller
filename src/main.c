@@ -21,16 +21,18 @@ int main() {
   SpawnaAviao("f1", 2, "A320", "Brasilia", 409, 50);
   // SpawnaAviao("f2", 2, "A320", "Brasilia", 409, 50);
   SpawnaAviao("f2", 3, "A420", "New York", 409, 50);
-  
-  LogGlobal(2);
-
-  Decola(1);
-  Decola(1);
-  Decola(2);
-  
-  Reordena(&ceu, 3);
+ 
+  Desaloca(&pista[0]); 
 
   LogGlobal(2);
+
+  // Decola(1);
+  // Decola(1);
+  // Decola(2);
+  
+  // Reordena(&ceu, 3);
+
+  // LogGlobal(2);
 
   return 0;
 }

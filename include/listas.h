@@ -41,3 +41,4 @@ void IndexaOrdenado(Aviao* elemento, Aviao** lista);
 Aviao* RetiraPorCodigo(Aviao** lista, int codigo);
 void Reordena(Aviao** lista, int codigo);
 void LogGlobal(int n);
+void Desaloca(Aviao** lista);

@@ -9,7 +9,16 @@
 // *InsereNoFim
 // *RetiraNoInicio
 // *RetiraPorCodigo
-// Desaloca
+// *Desaloca
+
+void Desaloca(Aviao** lista) {
+  if((*lista)->proximo) {
+    Desaloca(&(*lista)->proximo);
+  }
+
+  free(*lista);
+  *lista = NULL;
+}
 
 void LogGlobal(int n) {
   Aviao* iterator;
