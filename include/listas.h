@@ -12,8 +12,8 @@ typedef enum {
 } Estado;
 
 typedef struct Aviao {
-  int pista;
-  char *codigo;
+  int numPista;
+  int codigo;
   char *modelo;
   float distancia;
   int tempoEstimado;
@@ -27,3 +27,14 @@ typedef struct Aviao {
   struct Aviao *proximo;
   struct Aviao *anterior;
 } Aviao;
+
+extern Aviao** pista;
+extern Aviao* ceu;
+extern Aviao* destino; 
+
+void MostraPista(Aviao* pista);
+void AdicionaAviao (Aviao** pista, int value);
+Aviao* InsereNoFim(Aviao **cabeca);
+Aviao* RetiraNoInicio(Aviao** cabeca);
+void IndexaOrdenado(Aviao* elemento, Aviao** lista);
+Aviao* RetiraPorCodigo(Aviao** lista, int codigo);
