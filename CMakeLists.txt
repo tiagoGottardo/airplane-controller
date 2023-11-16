@@ -14,3 +14,5 @@ include_directories(include)
 
 # Cria o executável
 add_executable(AirplaneController ${SOURCES} ${HEADERS})
+
+target_link_libraries(AirplaneController m)
