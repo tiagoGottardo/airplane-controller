@@ -28,7 +28,7 @@ void LogGlobal(int n) {
       iterator = pista[i];
 
       while(iterator) {
-        printf("Codigo:%3d | Modelo: %15s | Velocidade: %5.0f | Coordenada: (%5.0f;%5.0f;%5.0f)\n", iterator->codigo, iterator->modelo, iterator->velocidade, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+        printf("Codigo:%3d | Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->codigo, iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
 
         iterator = iterator->proximo;
       }
@@ -40,7 +40,7 @@ void LogGlobal(int n) {
   if(ceu) {
     iterator = ceu;
     while(iterator) {
-      printf("Codigo:%3d | Modelo: %15s | Velocidade: %5.0f | Coordenada: (%5.0f;%5.0f;%5.0f)\n", iterator->codigo, iterator->modelo, iterator->velocidade, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+      printf("Codigo:%3d | Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->codigo, iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
 
       iterator = iterator->proximo;
     } 
