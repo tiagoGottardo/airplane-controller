@@ -19,11 +19,10 @@ typedef struct Aviao {
   int tempoEstimado;
   int tempoReal;
   Coordenada coordenada;
+  Coordenada velocidade;
   Estado estado;
   char *destino;
-  float velocidade;
   float direcao;
-  int sentido;
   struct Aviao *proximo;
   struct Aviao *anterior;
 } Aviao;
