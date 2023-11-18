@@ -12,11 +12,22 @@
 // *RetiraPorCodigo
 // *Desaloca
 
-void Desaloca(Aviao** lista) {
+void DesalocaAviao(Aviao** lista) {
   if(!(*lista)) return;
 
   if((*lista)->proximo) {
-    Desaloca(&(*lista)->proximo);
+    DesalocaAviao(&(*lista)->proximo);
+  }
+
+  free(*lista);
+  *lista = NULL;
+}
+
+void DesalocaDesventura(Desventura** lista) {
+  if(!(*lista)) return;
+
+  if((*lista)->proximo) {
+    DesalocaDesventura(&(*lista)->proximo);
   }
 
   free(*lista);
@@ -215,6 +226,18 @@ void IndexaDesventuraOrdenado(Desventura* elemento, Desventura** lista) {
     iterator->proximo = elemento;
   }
   
+}
+
+void DeletaDesventura(Desventura** cabeca) {
+  if(!(*cabeca)) return;
+  
+  Desventura* proximo = (*cabeca)->proximo;
+
+  (*cabeca)->proximo = NULL;
+  free(*cabeca);
+  *cabeca = NULL;
+
+  if(proximo) *cabeca = proximo;
 }
 
 Aviao* RetiraNoInicio(Aviao** cabeca) {

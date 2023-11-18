@@ -17,13 +17,15 @@ int main() {
   InicializaPistas(2);
 
   SpawnaAviao("f1", 1, "A220", "SP", 409, 50);
-  SpawnaAviao("f1", 2, "A320", "Brasilia", 409, 50);
-  SpawnaAviao("f2", 6, "A320", "Brasilia", 409, 50);
-  SpawnaAviao("f2", 3, "A420", "New York", 409, 50);
+  SpawnaAviao("f1", 2, "B320", "Brasilia", 409, 50);
+  SpawnaAviao("f2", 6, "C320", "Brasilia", 409, 50);
+  SpawnaAviao("f2", 3, "D420", "New York", 409, 50);
   
-  // LogGlobal();
+  LogGlobal();
   
   Decola(1);
+  Decola(1);
+  Decola(2);
   Decola(2);
 
   InsereDesventura(TEMPESTADE, 4); 
@@ -31,10 +33,10 @@ int main() {
   InsereDesventura(TURBULENCIA, 10); 
   InsereDesventura(NEBLINA, 4); 
 
-  IniciaSimulacao(6);
-  // MostraLista(desventura);
+  IniciaSimulacao(5);
 
-  // LogGlobal();
+  MostraLista(desventura);
+
 
   return 0;
 }

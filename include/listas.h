@@ -39,10 +39,6 @@ typedef struct Aviao {
   struct Aviao *anterior;
 } Aviao;
 
-// extern Aviao** pista;
-// extern Aviao* ceu;
-// extern Aviao* destino; 
-
 typedef struct Local {
   Aviao** pista;
   int quantidadeDePistas;
@@ -53,15 +49,17 @@ typedef struct Local {
 extern Local local;
 extern Desventura* desventura;
 
+Aviao* InsereNoFim(Aviao **cabeca);
+Aviao* RetiraNoInicio(Aviao** cabeca);
+Aviao* RetiraPorCodigo(Aviao** lista, int codigo);
 void MostraLista(Desventura* pista);
 void IndexaDesventuraOrdenado(Desventura* elemento, Desventura** lista);
 void AdicionaAviao (Aviao** pista, int value);
-Aviao* InsereNoFim(Aviao **cabeca);
-Aviao* RetiraNoInicio(Aviao** cabeca);
 void IndexaNoInicio(Aviao* elemento, Aviao** lista);
 void IndexaOrdenado(Aviao* elemento, Aviao** lista);
-Aviao* RetiraPorCodigo(Aviao** lista, int codigo);
 void Reordena(Aviao** lista, int codigo);
 void LogGlobal();
-void Desaloca(Aviao** lista);
+void DesalocaAviao(Aviao** lista);
 void InsereDesventura(TipoDesventura tipo, int turno);
+void DeletaDesventura(Desventura** cabeca);
+void DesalocaDesventura(Desventura** lista);
