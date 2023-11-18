@@ -6,6 +6,7 @@
 // *IndexaOrdenado
 // *IndexaNoInicio
 // *Reordena
+// *InsereDesventura
 // *InsereNoFim
 // *RetiraNoInicio
 // *RetiraPorCodigo
@@ -59,6 +60,18 @@ void MostraPista(Aviao* pista) {
     iterator = iterator->proximo;
   }
   printf("\n");
+}
+
+void InsereDesventura(TipoDesventura tipo, int turno) {
+  if(turno < 1) {
+    printf("O turno escolhido 'e invalido!\n");
+    return;
+  }
+
+  Desventura* novo = (Desventura *) malloc(sizeof(Desventura));
+  novo->tipo = tipo;
+  novo->turno = turno;
+  IndexaDesventuraOrdenado(novo, &desventura);
 }
 
 //Ilustrativa
