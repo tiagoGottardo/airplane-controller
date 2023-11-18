@@ -53,13 +53,23 @@ void LogGlobal(int n) {
 }
 
 //Funcao Ilustrativa
-void MostraPista(Aviao* pista) {
-  Aviao* iterator = pista;
+void MostraLista(Desventura* lista) {
+  Desventura* iterator = lista;
 
   while(iterator) {
-    printf("Z: %.0f | Destino: %s | Codigo: %d\n", iterator->coordenada.z, iterator->destino, iterator->codigo);
-  
-    iterator = iterator->proximo;
+    switch(iterator->tipo) {
+      case NEBLINA:
+        printf("Neblina no turno %d.\n", iterator->turno);
+      break;
+      case TEMPESTADE:
+        printf("Tempestade no turno %d.\n", iterator->turno);
+      break;
+      case TURBULENCIA:
+        printf("Turbulencia no turno %d.\n", iterator->turno);
+      break;
+    }
+    
+      iterator = iterator->proximo;
   }
   printf("\n");
 }
