@@ -188,6 +188,35 @@ void IndexaOrdenado(Aviao* elemento, Aviao** lista) {
   
 }
 
+void IndexaDesventuraOrdenado(Desventura* elemento, Desventura** lista) {
+  if(!(*lista)) {
+    *lista = elemento;
+    return;
+  }
+
+  if(elemento->turno <= (*lista)->turno) {
+    elemento->proximo = (*lista);
+    (*lista) = elemento;
+    return;
+  } else {
+    Desventura* iterator = (*lista);
+
+    while(iterator->proximo) {
+       
+      if(elemento->turno <= iterator->proximo->turno) {
+        elemento->proximo = iterator->proximo;
+        iterator->proximo = elemento;
+        return;
+      }
+      
+      iterator = iterator->proximo;
+    }
+    
+    iterator->proximo = elemento;
+  }
+  
+}
+
 Aviao* RetiraNoInicio(Aviao** cabeca) {
   if(!(*cabeca)->proximo) {
     Aviao* retirado = (*cabeca);
