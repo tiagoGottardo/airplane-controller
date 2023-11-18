@@ -6,9 +6,8 @@
 #include "../include/listas.h"
 #include "../include/eventos.h"
 
-Aviao** pista = NULL;
-Aviao* ceu = NULL;
-Aviao* destino = NULL;
+Local local;
+Desventura* desventura = NULL;
 
 int main() {
   srand(((unsigned int)time(NULL)));

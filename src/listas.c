@@ -23,12 +23,12 @@ void Desaloca(Aviao** lista) {
   *lista = NULL;
 }
 
-void LogGlobal(int n) {
+void LogGlobal() {
   Aviao* iterator;
-  for(int i = 0; i < n; i++) {
+  for(int i = 0; i < local.quantidadeDePistas; i++) {
     printf("Pista %d:\n", i + 1);
-    if(pista[i]) {
-      iterator = pista[i];
+    if(local.pista[i]) {
+      iterator = local.pista[i];
 
       while(iterator) {
         printf("Codigo:%3d | Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->codigo, iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
@@ -40,8 +40,8 @@ void LogGlobal(int n) {
   }
 
   printf("Ceu:\n");
-  if(ceu) {
-    iterator = ceu;
+  if(local.ceu) {
+    iterator = local.ceu;
     while(iterator) {
       printf("Codigo:%3d | Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->codigo, iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
 

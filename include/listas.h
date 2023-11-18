@@ -11,6 +11,18 @@ typedef enum {
   CONCLUIDO
 } Estado;
 
+typedef enum {
+  TEMPESTADE,
+  NEBLINA,
+  TURBULENCIA
+} TipoDesventura;
+
+typedef struct Desventura {
+  TipoDesventura tipo;
+  int turno;
+  struct Desventura* proximo;
+} Desventura;
+
 typedef struct Aviao {
   int numPista;
   int codigo;
@@ -27,11 +39,22 @@ typedef struct Aviao {
   struct Aviao *anterior;
 } Aviao;
 
-extern Aviao** pista;
-extern Aviao* ceu;
-extern Aviao* destino; 
+// extern Aviao** pista;
+// extern Aviao* ceu;
+// extern Aviao* destino; 
 
-void MostraPista(Aviao* pista);
+typedef struct Local {
+  Aviao** pista;
+  int quantidadeDePistas;
+  Aviao* ceu;
+  Aviao* destino;
+} Local;
+
+extern Local local;
+extern Desventura* desventura;
+
+void MostraLista(Desventura* pista);
+void IndexaDesventuraOrdenado(Desventura* elemento, Desventura** lista);
 void AdicionaAviao (Aviao** pista, int value);
 Aviao* InsereNoFim(Aviao **cabeca);
 Aviao* RetiraNoInicio(Aviao** cabeca);
@@ -39,5 +62,6 @@ void IndexaNoInicio(Aviao* elemento, Aviao** lista);
 void IndexaOrdenado(Aviao* elemento, Aviao** lista);
 Aviao* RetiraPorCodigo(Aviao** lista, int codigo);
 void Reordena(Aviao** lista, int codigo);
-void LogGlobal(int n);
+void LogGlobal();
 void Desaloca(Aviao** lista);
+void InsereDesventura(TipoDesventura tipo, int turno);

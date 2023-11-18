@@ -55,16 +55,18 @@ void Decola(int numPista) {
   retirado->estado = VOANDO;
   // etc...
 
-  IndexaOrdenado(retirado, &ceu);  
+  IndexaOrdenado(retirado, &(local.ceu));  
 
 }
 
 void InicializaPistas(int quantidadeDePistas) {
-  pista = (Aviao **) malloc(quantidadeDePistas * sizeof(Aviao *));
+  local.pista = (Aviao **) malloc(quantidadeDePistas * sizeof(Aviao *));
+
+  local.quantidadeDePistas = quantidadeDePistas;
 
   for(int i = 0; i < quantidadeDePistas; i++) {
-    pista[i] = (Aviao *) malloc(sizeof(Aviao));
-    pista[i] = NULL;
+    local.pista[i] = (Aviao *) malloc(sizeof(Aviao));
+    local.pista[i] = NULL;
   }
 }
 
@@ -72,7 +74,7 @@ void SpawnaAviao(char* idPista, int codigo, char* modelo, char* cidadeDestino, f
   int numPista;
   sscanf(idPista, "f%d", &numPista);
 
-  Aviao* novoAviao = InsereNoFim(&pista[numPista - 1]);
+  Aviao* novoAviao = InsereNoFim(&local.pista[numPista - 1]);
   
   novoAviao->numPista = numPista;
   novoAviao->codigo = codigo;
