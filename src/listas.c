@@ -6,26 +6,40 @@
 // *IndexaOrdenado
 // *IndexaNoInicio
 // *Reordena
+// *InsereDesventura
 // *InsereNoFim
 // *RetiraNoInicio
 // *RetiraPorCodigo
 // *Desaloca
 
-void Desaloca(Aviao** lista) {
+void DesalocaAviao(Aviao** lista) {
+  if(!(*lista)) return;
+
   if((*lista)->proximo) {
-    Desaloca(&(*lista)->proximo);
+    DesalocaAviao(&(*lista)->proximo);
   }
 
   free(*lista);
   *lista = NULL;
 }
 
-void LogGlobal(int n) {
+void DesalocaDesventura(Desventura** lista) {
+  if(!(*lista)) return;
+
+  if((*lista)->proximo) {
+    DesalocaDesventura(&(*lista)->proximo);
+  }
+
+  free(*lista);
+  *lista = NULL;
+}
+
+void LogGlobal() {
   Aviao* iterator;
-  for(int i = 0; i < n; i++) {
+  for(int i = 0; i < local.quantidadeDePistas; i++) {
     printf("Pista %d:\n", i + 1);
-    if(pista[i]) {
-      iterator = pista[i];
+    if(local.pista[i]) {
+      iterator = local.pista[i];
 
       while(iterator) {
         printf("Codigo:%3d | Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->codigo, iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
@@ -37,8 +51,8 @@ void LogGlobal(int n) {
   }
 
   printf("Ceu:\n");
-  if(ceu) {
-    iterator = ceu;
+  if(local.ceu) {
+    iterator = local.ceu;
     while(iterator) {
       printf("Codigo:%3d | Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->codigo, iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
 
@@ -50,22 +64,48 @@ void LogGlobal(int n) {
 }
 
 //Funcao Ilustrativa
-void MostraPista(Aviao* pista) {
-  Aviao* iterator = pista;
+void MostraLista(Desventura* lista) {
+  Desventura* iterator = lista;
 
   while(iterator) {
-    printf("Z: %.0f | Destino: %s | Codigo: %d\n", iterator->coordenada.z, iterator->destino, iterator->codigo);
-  
-    iterator = iterator->proximo;
+    switch(iterator->tipo) {
+      case NEBLINA:
+        printf("Neblina no turno %d.\n", iterator->turno);
+      break;
+      case TEMPESTADE:
+        printf("Tempestade no turno %d.\n", iterator->turno);
+      break;
+      case TURBULENCIA:
+        printf("Turbulencia no turno %d.\n", iterator->turno);
+      break;
+    }
+    
+      iterator = iterator->proximo;
   }
   printf("\n");
+}
+
+void InsereDesventura(TipoDesventura tipo, int turno) {
+  if(turno < 1) {
+    printf("O turno escolhido 'e invalido!\n");
+    return;
+  }
+
+  Desventura* novo = (Desventura *) malloc(sizeof(Desventura));
+  novo->tipo = tipo;
+  novo->turno = turno;
+  IndexaDesventuraOrdenado(novo, &desventura);
 }
 
 //Ilustrativa
 void Reordena(Aviao** lista, int codigo) {
 
   Aviao* elemento = RetiraPorCodigo(lista, codigo);
-  
+ 
+  if(!elemento) {
+    printf("Um aviao com esse codigo nao se encontra no ceu!\n");
+    return;
+  }
   //Codigo a ser retirado
   elemento->coordenada.z = NumeroEntre(400, 900);
 
@@ -157,6 +197,47 @@ void IndexaOrdenado(Aviao* elemento, Aviao** lista) {
     elemento->anterior = iterator;
   }
   
+}
+
+void IndexaDesventuraOrdenado(Desventura* elemento, Desventura** lista) {
+  if(!(*lista)) {
+    *lista = elemento;
+    return;
+  }
+
+  if(elemento->turno <= (*lista)->turno) {
+    elemento->proximo = (*lista);
+    (*lista) = elemento;
+    return;
+  } else {
+    Desventura* iterator = (*lista);
+
+    while(iterator->proximo) {
+       
+      if(elemento->turno <= iterator->proximo->turno) {
+        elemento->proximo = iterator->proximo;
+        iterator->proximo = elemento;
+        return;
+      }
+      
+      iterator = iterator->proximo;
+    }
+    
+    iterator->proximo = elemento;
+  }
+  
+}
+
+void DeletaDesventura(Desventura** cabeca) {
+  if(!(*cabeca)) return;
+  
+  Desventura* proximo = (*cabeca)->proximo;
+
+  (*cabeca)->proximo = NULL;
+  free(*cabeca);
+  *cabeca = NULL;
+
+  if(proximo) *cabeca = proximo;
 }
 
 Aviao* RetiraNoInicio(Aviao** cabeca) {

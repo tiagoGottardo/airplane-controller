@@ -86,7 +86,7 @@ void Decolar(void **parametros) {
   printf("Parametro 3: %d\n\n", *p3); 
 }
 
-void IniciaSimulacao(void **parametros) {
+void IniciaSimulacao2(void **parametros) {
   int *p1 = (int*)parametros[0];
   printf("Chamou a função IniciaSimulacao\n");
   printf("Parametro 1: %d\n\n", *p1); 
@@ -98,7 +98,7 @@ void ChamaFuncoes(char **elementos, int numElementos) {
     {"pistas", 1, (TipoParametro[]){TIPO_INT}, Pistas},
     {"insere_aviao", 6, (TipoParametro[]){TIPO_STRING, TIPO_INT, TIPO_STRING, TIPO_STRING, TIPO_INT, TIPO_INT}, InsereAviao},
     {"decolar", 3, (TipoParametro[]){TIPO_INT, TIPO_INT, TIPO_INT}, Decolar},
-    {"iniciasimulacao", 1, (TipoParametro[]){TIPO_INT}, IniciaSimulacao}
+    {"iniciasimulacao", 1, (TipoParametro[]){TIPO_INT}, IniciaSimulacao2}
   };
 
   for (int i = 0; i < sizeof(mapeamento) / sizeof(mapeamento[0]); ++i) {

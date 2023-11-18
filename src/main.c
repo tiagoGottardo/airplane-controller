@@ -6,9 +6,8 @@
 #include "../include/listas.h"
 #include "../include/eventos.h"
 
-Aviao** pista = NULL;
-Aviao* ceu = NULL;
-Aviao* destino = NULL;
+Local local;
+Desventura* desventura = NULL;
 
 int main() {
   srand(((unsigned int)time(NULL)));
@@ -18,20 +17,26 @@ int main() {
   InicializaPistas(2);
 
   SpawnaAviao("f1", 1, "A220", "SP", 409, 50);
-  SpawnaAviao("f1", 2, "A320", "Brasilia", 409, 50);
-  SpawnaAviao("f2", 6, "A320", "Brasilia", 409, 50);
-  SpawnaAviao("f2", 3, "A420", "New York", 409, 50);
+  SpawnaAviao("f1", 2, "B320", "Brasilia", 409, 50);
+  SpawnaAviao("f2", 6, "C320", "Brasilia", 409, 50);
+  SpawnaAviao("f2", 3, "D420", "New York", 409, 50);
   
-  LogGlobal(2);
- 
+  LogGlobal();
+  
+  Decola(1);
   Decola(1);
   Decola(2);
+  Decola(2);
 
-  LogGlobal(2);
+  InsereDesventura(TEMPESTADE, 4); 
+  InsereDesventura(NEBLINA, 2); 
+  InsereDesventura(TURBULENCIA, 10); 
+  InsereDesventura(NEBLINA, 4); 
 
-  // Reordena(&ceu, 3);
+  IniciaSimulacao(5);
 
-  // LogGlobal(2);
+  MostraLista(desventura);
+
 
   return 0;
 }

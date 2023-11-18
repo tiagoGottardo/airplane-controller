@@ -1,52 +1,152 @@
 //*InicializaPistas
 //*SpawnaAviao
 //*Decola
-//IniciaSimulacao
+//*IniciaSimulacao
 //Aterrissa
-//Finaliza
+//*Finaliza
 //VerificaColisoes
-//MoveAviao
-//AplicaDesventura
+//*MoveAviao
+//*AplicaDesventura
+
+#define MAX_ALTITUDE 12.000
+#define MIN_ALTITUDE 10.000
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
 
 #include "../include/listas.h"
+#include "../include/eventos.h"
 
 int NumeroEntre(int a, int b){
   if(a <= b)  return (rand() % (b - a + 1)) + a; 
   else return (rand() % (a - b + 1)) + b;
 }
 
+
 void AviaoMove(Aviao** lista) {
   Aviao* iterator = *lista;
 
   while(iterator) {
+    if(sqrt(pow(iterator->coordenada.x, 2) + pow(iterator->coordenada.y, 2)) >= iterator->distancia * 0.9) {
+      iterator->estado = ATERRISSANDO;
+      printf("Chegando perto");
+    }
+
     iterator->coordenada.x += iterator->velocidade.x;
     iterator->coordenada.y += iterator->velocidade.y;
     iterator->coordenada.z += iterator->velocidade.z;
+
+    if(iterator->velocidade.z != 0) iterator->velocidade.z = 0;
+    if(iterator->coordenada.z > MAX_ALTITUDE) iterator->coordenada.z = MAX_ALTITUDE;
+    if(iterator->coordenada.z < MIN_ALTITUDE) iterator->coordenada.z = MIN_ALTITUDE;
 
     iterator = iterator->proximo;
   }
 
 }
 
+
+void AplicaDesventura(Aviao** aviao) {
+  switch(desventura->tipo) {
+    case TEMPESTADE:
+      printf("Aconteceu uma tempestade com o %s.\n", (*aviao)->modelo);
+      if(NumeroEntre(0, 1)) 
+        (*aviao)->velocidade.z += 0.3;
+      else 
+        (*aviao)->velocidade.z -= 0.3;
+
+      if(NumeroEntre(0, 1)) {
+        (*aviao)->velocidade.x *= 1 + 0.1;
+        (*aviao)->velocidade.y *= 1 + 0.1;
+      } else {
+        (*aviao)->velocidade.x *= 1 - 0.1;
+        (*aviao)->velocidade.y *= 1 - 0.1;
+      }
+    break;
+    case NEBLINA:
+      printf("Aconteceu uma neblina com o %s.\n", (*aviao)->modelo);
+      if(NumeroEntre(0, 1)) 
+        (*aviao)->velocidade.z += 0.5;
+      else 
+        (*aviao)->velocidade.z -= 0.5;
+
+      if(NumeroEntre(0, 1)) {
+        (*aviao)->velocidade.x *= 1 + 0.05;
+        (*aviao)->velocidade.y *= 1 + 0.05;
+      } else {
+        (*aviao)->velocidade.x *= 1 - 0.05;
+        (*aviao)->velocidade.y *= 1 - 0.05;
+      }
+      break;
+    case TURBULENCIA:
+      printf("Aconteceu uma turbulencia com o %s.\n", (*aviao)->modelo);
+      (*aviao)->velocidade.x *= 1 - 0.15;
+      (*aviao)->velocidade.y *= 1 - 0.15;
+    break;
+  }
+
+  DeletaDesventura(&desventura);
+}
+
+int Sorteio(Aviao** aviao, int ticket) {
+  if((*aviao)->proximo) {
+    if((*aviao)->estado == VOANDO) {
+      int resultado = Sorteio(&(*aviao)->proximo, ticket + 1);
+      if(resultado == ticket) AplicaDesventura(aviao);
+      return resultado;
+    } else {
+      return Sorteio(&(*aviao)->proximo, ticket);
+    }
+
+  } else {
+    return NumeroEntre(1, ticket);
+  }
+}
+
+void VerificaDesventuras(int* turnoAtual) {
+  if(!desventura) return;
+  if(desventura->turno == *turnoAtual) {
+    Sorteio(&local.ceu, 1);
+    VerificaDesventuras(turnoAtual);
+  } 
+}
+
+void IniciaSimulacao(int totalDeTurnos) {
+  for(int i = 1; i <= totalDeTurnos; i++) {
+
+
+    AviaoMove(&local.ceu);
+
+    VerificaDesventuras(&i);
+
+    printf("Turno (%d)\n", i);
+    LogGlobal();
+  }
+
+  Finaliza(); 
+}
+
 //Nao Terminado
 void Decola(int numPista) {
-  Aviao* retirado = RetiraNoInicio(&pista[numPista - 1]);
+  Aviao* retirado = RetiraNoInicio(&local.pista[numPista - 1]);
 
   float deslocamentoNaDecolagem = NumeroEntre(1500, 2500)/1000.0;
-  printf("Velocidade na decolagem = %3.4f\n", deslocamentoNaDecolagem);
-  printf("Direcao = %3.4f\n", retirado->direcao);
+  // printf("Velocidade na decolagem = %3.4f\n", deslocamentoNaDecolagem);
+  // printf("Direcao = %3.4f\n", retirado->direcao);
 
-  retirado->velocidade.x = (deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
+  if(NumeroEntre(0, 1))
+    retirado->velocidade.x = (deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
+  else
+    retirado->velocidade.x = -(deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
+
   retirado->velocidade.y = retirado->velocidade.x * retirado->direcao;
   retirado->velocidade.z = NumeroEntre(10000, 12000)/1000.0;
   
   AviaoMove(&retirado);
 
-  printf("Prova real: %3.4f == %3.4f\n\n", pow(retirado->velocidade.x, 2) + pow(retirado->velocidade.y, 2), pow(deslocamentoNaDecolagem, 2));
+  // printf("Prova real: %3.4f == %3.4f\n\n", pow(retirado->velocidade.x, 2) + pow(retirado->velocidade.y, 2), pow(deslocamentoNaDecolagem, 2));
 
   retirado->velocidade.x *= (retirado->distancia/retirado->tempoEstimado)/(deslocamentoNaDecolagem); 
   retirado->velocidade.y = retirado->velocidade.x * retirado->direcao;
@@ -55,16 +155,18 @@ void Decola(int numPista) {
   retirado->estado = VOANDO;
   // etc...
 
-  IndexaOrdenado(retirado, &ceu);  
+  IndexaOrdenado(retirado, &(local.ceu));  
 
 }
 
 void InicializaPistas(int quantidadeDePistas) {
-  pista = (Aviao **) malloc(quantidadeDePistas * sizeof(Aviao *));
+  local.pista = (Aviao **) malloc(quantidadeDePistas * sizeof(Aviao *));
+
+  local.quantidadeDePistas = quantidadeDePistas;
 
   for(int i = 0; i < quantidadeDePistas; i++) {
-    pista[i] = (Aviao *) malloc(sizeof(Aviao));
-    pista[i] = NULL;
+    local.pista[i] = (Aviao *) malloc(sizeof(Aviao));
+    local.pista[i] = NULL;
   }
 }
 
@@ -72,7 +174,7 @@ void SpawnaAviao(char* idPista, int codigo, char* modelo, char* cidadeDestino, f
   int numPista;
   sscanf(idPista, "f%d", &numPista);
 
-  Aviao* novoAviao = InsereNoFim(&pista[numPista - 1]);
+  Aviao* novoAviao = InsereNoFim(&local.pista[numPista - 1]);
   
   novoAviao->numPista = numPista;
   novoAviao->codigo = codigo;
@@ -92,3 +194,15 @@ void SpawnaAviao(char* idPista, int codigo, char* modelo, char* cidadeDestino, f
   novoAviao->direcao = tan(NumeroEntre(0, 360)*M_PI/180.0);
 
 }
+
+void Finaliza() {
+  for(int i = 0; i < local.quantidadeDePistas; i++) {
+    DesalocaAviao(&local.pista[i]);
+  }
+  
+  DesalocaAviao(&local.ceu);
+  DesalocaAviao(&local.destino);
+
+  DesalocaDesventura(&desventura);
+}
+
