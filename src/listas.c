@@ -13,6 +13,8 @@
 // *Desaloca
 
 void Desaloca(Aviao** lista) {
+  if(!(*lista)) return;
+
   if((*lista)->proximo) {
     Desaloca(&(*lista)->proximo);
   }
