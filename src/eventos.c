@@ -3,21 +3,24 @@
 //*Decola
 //IniciaSimulacao
 //Aterrissa
-//Finaliza
+//*Finaliza
 //VerificaColisoes
-//MoveAviao
+//*MoveAviao
 //AplicaDesventura
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
 
 #include "../include/listas.h"
+#include "../include/eventos.h"
 
 int NumeroEntre(int a, int b){
   if(a <= b)  return (rand() % (b - a + 1)) + a; 
   else return (rand() % (a - b + 1)) + b;
 }
+
 
 void AviaoMove(Aviao** lista) {
   Aviao* iterator = *lista;
@@ -94,3 +97,13 @@ void SpawnaAviao(char* idPista, int codigo, char* modelo, char* cidadeDestino, f
   novoAviao->direcao = tan(NumeroEntre(0, 360)*M_PI/180.0);
 
 }
+
+void Finaliza() {
+  for(int i = 0; i < local.quantidadeDePistas; i++) {
+    Desaloca(&local.pista[i]);
+  }
+  
+  Desaloca(&local.ceu);
+  Desaloca(&local.destino);
+}
+
