@@ -35,9 +35,22 @@ void AviaoMove(Aviao** lista) {
 
 }
 
+void IniciaSimulacao(int totalDeTurnos) {
+  for(int i = 1; i <= totalDeTurnos; i++) {
+
+    
+
+    AviaoMove(&local.ceu);
+    printf("Turno (%d)\n", i);
+    LogGlobal();
+  }
+
+  Finaliza(); 
+}
+
 //Nao Terminado
 void Decola(int numPista) {
-  Aviao* retirado = RetiraNoInicio(&pista[numPista - 1]);
+  Aviao* retirado = RetiraNoInicio(&local.pista[numPista - 1]);
 
   float deslocamentoNaDecolagem = NumeroEntre(1500, 2500)/1000.0;
   printf("Velocidade na decolagem = %3.4f\n", deslocamentoNaDecolagem);
