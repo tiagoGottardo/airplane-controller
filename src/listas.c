@@ -90,7 +90,11 @@ void InsereDesventura(TipoDesventura tipo, int turno) {
 void Reordena(Aviao** lista, int codigo) {
 
   Aviao* elemento = RetiraPorCodigo(lista, codigo);
-  
+ 
+  if(!elemento) {
+    printf("Um aviao com esse codigo nao se encontra no ceu!\n");
+    return;
+  }
   //Codigo a ser retirado
   elemento->coordenada.z = NumeroEntre(400, 900);
 
