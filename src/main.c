@@ -21,16 +21,20 @@ int main() {
   SpawnaAviao("f2", 6, "A320", "Brasilia", 409, 50);
   SpawnaAviao("f2", 3, "A420", "New York", 409, 50);
   
-  LogGlobal(2);
- 
+  // LogGlobal();
+  
   Decola(1);
   Decola(2);
 
-  LogGlobal(2);
+  InsereDesventura(TEMPESTADE, 4); 
+  InsereDesventura(NEBLINA, 2); 
+  InsereDesventura(TURBULENCIA, 10); 
+  InsereDesventura(NEBLINA, 4); 
 
-  // Reordena(&ceu, 3);
+  IniciaSimulacao(6);
+  // MostraLista(desventura);
 
-  // LogGlobal(2);
+  // LogGlobal();
 
   return 0;
 }
