@@ -19,12 +19,13 @@ int main() {
 
   SpawnaAviao("f1", 1, "A220", "SP", 409, 50);
   SpawnaAviao("f1", 2, "A320", "Brasilia", 409, 50);
-  // SpawnaAviao("f2", 2, "A320", "Brasilia", 409, 50);
+  SpawnaAviao("f2", 6, "A320", "Brasilia", 409, 50);
   SpawnaAviao("f2", 3, "A420", "New York", 409, 50);
   
+  LogGlobal(2);
  
   Decola(1);
-  Decola(1);
+  Decola(2);
 
   LogGlobal(2);
 

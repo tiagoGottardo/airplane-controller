@@ -74,7 +74,12 @@ void Reordena(Aviao** lista, int codigo) {
 }
 
 Aviao* InsereNoFim(Aviao** cabeca) {
-  if(!(*cabeca)) return *cabeca = (Aviao *) malloc(sizeof(Aviao));
+  if(!(*cabeca)) {
+    *cabeca = (Aviao *) malloc(sizeof(Aviao));
+    (*cabeca)->proximo = NULL;
+    (*cabeca)->anterior = NULL;
+    return *cabeca;
+  }
 
   Aviao* node = (Aviao *) malloc(sizeof(Aviao));
   
