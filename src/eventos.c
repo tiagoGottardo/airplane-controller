@@ -38,12 +38,14 @@ void AviaoMove(Aviao** lista) {
     iterator->coordenada.y += iterator->velocidade.y;
     iterator->coordenada.z += iterator->velocidade.z;
 
-    if(iterator->velocidade.z != 0) iterator->velocidade.z = 0;
+
     if(iterator->coordenada.z > MAX_ALTITUDE) iterator->coordenada.z = MAX_ALTITUDE;
     if(iterator->coordenada.z < MIN_ALTITUDE) iterator->coordenada.z = MIN_ALTITUDE;
 
+    
     iterator = iterator->proximo;
   }
+
 
 }
 
@@ -53,37 +55,37 @@ void AplicaDesventura(Aviao** aviao) {
     case TEMPESTADE:
       printf("Aconteceu uma tempestade com o %s.\n", (*aviao)->modelo);
       if(NumeroEntre(0, 1)) 
-        (*aviao)->velocidade.z += 0.3;
+        (*aviao)->coordenada.z += 0.3;
       else 
-        (*aviao)->velocidade.z -= 0.3;
+        (*aviao)->coordenada.z -= 0.3;
 
       if(NumeroEntre(0, 1)) {
-        (*aviao)->velocidade.x *= 1 + 0.1;
-        (*aviao)->velocidade.y *= 1 + 0.1;
+        (*aviao)->velocidade.x *= 1.1;
+        (*aviao)->velocidade.y *= 1.1;
       } else {
-        (*aviao)->velocidade.x *= 1 - 0.1;
-        (*aviao)->velocidade.y *= 1 - 0.1;
+        (*aviao)->velocidade.x *= 0.9;
+        (*aviao)->velocidade.y *= 0.9;
       }
     break;
     case NEBLINA:
       printf("Aconteceu uma neblina com o %s.\n", (*aviao)->modelo);
       if(NumeroEntre(0, 1)) 
-        (*aviao)->velocidade.z += 0.5;
+        (*aviao)->coordenada.z += 0.5;
       else 
-        (*aviao)->velocidade.z -= 0.5;
+        (*aviao)->coordenada.z -= 0.5;
 
       if(NumeroEntre(0, 1)) {
-        (*aviao)->velocidade.x *= 1 + 0.05;
-        (*aviao)->velocidade.y *= 1 + 0.05;
+        (*aviao)->velocidade.x *= 1.05;
+        (*aviao)->velocidade.y *= 1.05;
       } else {
-        (*aviao)->velocidade.x *= 1 - 0.05;
-        (*aviao)->velocidade.y *= 1 - 0.05;
+        (*aviao)->velocidade.x *= 0.95;
+        (*aviao)->velocidade.y *= 0.95;
       }
       break;
     case TURBULENCIA:
       printf("Aconteceu uma turbulencia com o %s.\n", (*aviao)->modelo);
-      (*aviao)->velocidade.x *= 1 - 0.15;
-      (*aviao)->velocidade.y *= 1 - 0.15;
+      (*aviao)->velocidade.x *= 0.85;
+      (*aviao)->velocidade.y *= 0.85;
     break;
   }
 
@@ -94,7 +96,10 @@ int Sorteio(Aviao** aviao, int ticket) {
   if((*aviao)->proximo) {
     if((*aviao)->estado == VOANDO) {
       int resultado = Sorteio(&(*aviao)->proximo, ticket + 1);
-      if(resultado == ticket) AplicaDesventura(aviao);
+      if(resultado == ticket) {
+        AplicaDesventura(aviao);
+        Reordena(&local.ceu, (*aviao)->codigo);   
+      }
       return resultado;
     } else {
       return Sorteio(&(*aviao)->proximo, ticket);
@@ -116,10 +121,11 @@ void VerificaDesventuras(int* turnoAtual) {
 void IniciaSimulacao(int totalDeTurnos) {
   for(int i = 1; i <= totalDeTurnos; i++) {
 
-
     AviaoMove(&local.ceu);
 
-    VerificaDesventuras(&i);
+  while(desventura->turno == i) {
+    Sorteio(&local.ceu, 1);
+  } 
 
     printf("Turno (%d)\n", i);
     LogGlobal();
@@ -188,7 +194,7 @@ void SpawnaAviao(char* idPista, int codigo, char* modelo, char* cidadeDestino, f
   novoAviao->velocidade.z = 0;
   novoAviao->estado = ESPERANDO;
   novoAviao->destino = cidadeDestino;
-  // novoAviao->velocidade = distancia/tempoEstimadoDeVoo;
+  
   novoAviao->direcao = tan(NumeroEntre(0, 360)*M_PI/180.0);
 
 }

@@ -106,11 +106,8 @@ void Reordena(Aviao** lista, int codigo) {
     printf("Um aviao com esse codigo nao se encontra no ceu!\n");
     return;
   }
-  //Codigo a ser retirado
-  elemento->coordenada.z = NumeroEntre(400, 900);
 
   IndexaOrdenado(elemento, lista);
-
 }
 
 Aviao* InsereNoFim(Aviao** cabeca) {
