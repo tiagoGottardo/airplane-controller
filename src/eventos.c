@@ -24,14 +24,59 @@ int NumeroEntre(int a, int b){
   else return (rand() % (a - b + 1)) + b;
 }
 
+void ResolveColisoes(Aviao* aviao, Aviao* comparacao) { 
+
+  if(comparacao->coordenada.z >= aviao->coordenada.z) {
+    if(aviao->coordenada.z - 0.1 < MIN_ALTITUDE) aviao->coordenada.z += 0.2;
+    else aviao->coordenada.z -= 0.11;
+  } else {
+    if(aviao->coordenada.z + 0.1 > MAX_ALTITUDE) aviao->coordenada.z -= 0.2;
+    else aviao->coordenada.z += 0.11;
+  }
+
+  printf("Resolveu %s e %s -> Z:%f\n", aviao->modelo, comparacao->modelo, aviao->coordenada.z);
+  
+}
+
+int VerificaColisoes(Aviao* aviao, Aviao* comparacao) {
+  if(!aviao->proximo) return 0;
+  if(!comparacao) return VerificaColisoes(aviao, aviao->proximo);
+
+  float diferencaAntes = aviao->coordenada.x - comparacao->coordenada.x;
+  float diferencaDepois = (aviao->coordenada.x + aviao->velocidade.x) - (comparacao->coordenada.x + comparacao->velocidade.x);
+
+  if(comparacao->coordenada.z - aviao->coordenada.z <= 0.1 && aviao->coordenada.z - comparacao->coordenada.z >= -0.1) {
+    // Verifica coordenadas | dever ser ==;
+    if(aviao->direcao == comparacao->direcao) {
+      if((diferencaAntes < 0 && diferencaDepois > 0) || (diferencaAntes > 0 && diferencaDepois < 0) || (diferencaDepois == 0 && comparacao->coordenada.z != 0)) {
+        ResolveColisoes(aviao, comparacao);
+        return 1;
+      }
+    } else {
+      if(comparacao->proximo) return VerificaColisoes(aviao, comparacao->proximo);
+    }
+  }
+  return 0; 
+}
 
 void AviaoMove(Aviao** lista) {
   Aviao* iterator = *lista;
+  int colisao = 0;
 
   while(iterator) {
     if(sqrt(pow(iterator->coordenada.x, 2) + pow(iterator->coordenada.y, 2)) >= iterator->distancia * 0.9) {
       iterator->estado = ATERRISSANDO;
       printf("Chegando perto");
+    }
+
+    while(VerificaColisoes(iterator, NULL)) colisao++;
+    
+    // VerificaColisoes(iterator, NULL);
+    
+    if(colisao) {
+      Reordena(lista, iterator->codigo);
+      printf("Uma colisao foi evitada! %s\n", iterator->modelo);
+      colisao = 0;
     }
 
     iterator->coordenada.x += iterator->velocidade.x;
@@ -67,17 +112,17 @@ void AplicaDesventura(Aviao** aviao) {
     break;
     case NEBLINA:
       printf("Aconteceu uma neblina com o %s.\n", (*aviao)->modelo);
-      if(NumeroEntre(0, 1)) 
-        (*aviao)->velocidade.z += 0.5;
-      else 
-        (*aviao)->velocidade.z -= 0.5;
+      // if(NumeroEntre(0, 1)) 
+        // (*aviao)->velocidade.z += 0.5;
+      // else 
+        // (*aviao)->velocidade.z -= 0.5;
 
       if(NumeroEntre(0, 1)) {
-        (*aviao)->velocidade.x *= 1 + 0.05;
-        (*aviao)->velocidade.y *= 1 + 0.05;
+        (*aviao)->velocidade.x *= 3 + 0.05;
+        (*aviao)->velocidade.y *= 3 + 0.05;
       } else {
-        (*aviao)->velocidade.x *= 1 - 0.05;
-        (*aviao)->velocidade.y *= 1 - 0.05;
+        (*aviao)->velocidade.x *= 3 - 0.05;
+        (*aviao)->velocidade.y *= 3 - 0.05;
       }
       break;
     case TURBULENCIA:
@@ -136,13 +181,13 @@ void Decola(int numPista) {
   // printf("Velocidade na decolagem = %3.4f\n", deslocamentoNaDecolagem);
   // printf("Direcao = %3.4f\n", retirado->direcao);
 
-  if(NumeroEntre(0, 1))
+  // if(NumeroEntre(0, 1))
     retirado->velocidade.x = (deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
-  else
-    retirado->velocidade.x = -(deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
+  // else
+    // retirado->velocidade.x = -(deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
 
   retirado->velocidade.y = retirado->velocidade.x * retirado->direcao;
-  retirado->velocidade.z = NumeroEntre(10000, 12000)/1000.0;
+  retirado->velocidade.z = NumeroEntre(10000, 10500)/1000.0;
   
   AviaoMove(&retirado);
 
@@ -191,7 +236,8 @@ void SpawnaAviao(char* idPista, int codigo, char* modelo, char* cidadeDestino, f
   novoAviao->estado = ESPERANDO;
   novoAviao->destino = cidadeDestino;
   // novoAviao->velocidade = distancia/tempoEstimadoDeVoo;
-  novoAviao->direcao = tan(NumeroEntre(0, 360)*M_PI/180.0);
+  // novoAviao->direcao = tan(NumeroEntre(0, 360)*M_PI/180.0);
+  novoAviao->direcao = tan(45*M_PI/180.0);
 
 }
 
