@@ -133,22 +133,20 @@ void Decola(int numPista) {
   Aviao* retirado = RetiraNoInicio(&local.pista[numPista - 1]);
 
   float deslocamentoNaDecolagem = NumeroEntre(1500, 2500)/1000.0;
-  // printf("Velocidade na decolagem = %3.4f\n", deslocamentoNaDecolagem);
-  // printf("Direcao = %3.4f\n", retirado->direcao);
+  printf("Velocidade na decolagem = %3.4f\n", deslocamentoNaDecolagem);
+  printf("Direcao = %3.4f\n", retirado->direcao);
 
   if(NumeroEntre(0, 1))
-    retirado->velocidade.x = (deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
+    retirado->coordenada.x = (deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
   else
-    retirado->velocidade.x = -(deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
+    retirado->coordenada.x = -(deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
 
-  retirado->velocidade.y = retirado->velocidade.x * retirado->direcao;
-  retirado->velocidade.z = NumeroEntre(10000, 12000)/1000.0;
+  retirado->coordenada.y = retirado->velocidade.x * retirado->direcao;
+  retirado->coordenada.z = NumeroEntre(10000, 12000)/1000.0;
   
-  AviaoMove(&retirado);
+  printf("Prova real: %3.4f == %3.4f\n\n", pow(retirado->velocidade.x, 2) + pow(retirado->velocidade.y, 2), pow(deslocamentoNaDecolagem, 2));
 
-  // printf("Prova real: %3.4f == %3.4f\n\n", pow(retirado->velocidade.x, 2) + pow(retirado->velocidade.y, 2), pow(deslocamentoNaDecolagem, 2));
-
-  retirado->velocidade.x *= (retirado->distancia/retirado->tempoEstimado)/(deslocamentoNaDecolagem); 
+  retirado->velocidade.x = (retirado->distancia/retirado->tempoEstimado)/sqrt(pow(retirado->direcao, 2) + 1); 
   retirado->velocidade.y = retirado->velocidade.x * retirado->direcao;
   retirado->velocidade.z = 0;
 
