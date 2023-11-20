@@ -29,10 +29,11 @@ void AviaoMove(Aviao** lista) {
   Aviao* iterator = *lista;
 
   while(iterator) {
-    if(sqrt(pow(iterator->coordenada.x, 2) + pow(iterator->coordenada.y, 2)) >= iterator->distancia * 0.9) {
+    if(sqrt(pow(iterator->coordenada.x, 2) + pow(iterator->coordenada.y, 2)) >= (iterator->distancia * 0.9)) {
       iterator->estado = ATERRISSANDO;
-      printf("Chegando perto");
+      printf("Chegando perto\n");
     }
+
 
     iterator->coordenada.x += iterator->velocidade.x;
     iterator->coordenada.y += iterator->velocidade.y;
@@ -41,7 +42,6 @@ void AviaoMove(Aviao** lista) {
 
     if(iterator->coordenada.z > MAX_ALTITUDE) iterator->coordenada.z = MAX_ALTITUDE;
     if(iterator->coordenada.z < MIN_ALTITUDE) iterator->coordenada.z = MIN_ALTITUDE;
-
     
     iterator = iterator->proximo;
   }
@@ -110,22 +110,13 @@ int Sorteio(Aviao** aviao, int ticket) {
   }
 }
 
-void VerificaDesventuras(int* turnoAtual) {
-  if(!desventura) return;
-  if(desventura->turno == *turnoAtual) {
-    Sorteio(&local.ceu, 1);
-    VerificaDesventuras(turnoAtual);
-  } 
-}
-
 void IniciaSimulacao(int totalDeTurnos) {
   for(int i = 1; i <= totalDeTurnos; i++) {
 
     AviaoMove(&local.ceu);
 
-  while(desventura->turno == i) {
-    Sorteio(&local.ceu, 1);
-  } 
+    if(desventura)
+      while(desventura->turno == i) Sorteio(&local.ceu, 1);
 
     printf("Turno (%d)\n", i);
     LogGlobal();

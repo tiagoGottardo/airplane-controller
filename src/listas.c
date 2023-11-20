@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "../include/listas.h"
 #include "../include/eventos.h"
@@ -55,6 +56,7 @@ void LogGlobal() {
     iterator = local.ceu;
     while(iterator) {
       printf("Codigo:%3d | Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->codigo, iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+      printf("Distancia restante: %f\n", iterator->distancia - sqrt(pow(iterator->coordenada.x, 2) + pow(iterator->coordenada.y, 2))   );
 
       iterator = iterator->proximo;
     } 
@@ -65,6 +67,7 @@ void LogGlobal() {
 
 //Funcao Ilustrativa
 void MostraLista(Desventura* lista) {
+  if(!lista) return;
   Desventura* iterator = lista;
 
   while(iterator) {
