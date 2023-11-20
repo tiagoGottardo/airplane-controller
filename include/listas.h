@@ -49,15 +49,16 @@ typedef struct Local {
 extern Local local;
 extern Desventura* desventura;
 
+#define PI 3.141592653589 
+
 Aviao* InsereNoFim(Aviao **cabeca);
-Aviao* RetiraNoInicio(Aviao** cabeca);
-Aviao* RetiraPorCodigo(Aviao** lista, int codigo);
+Aviao* Retira(Aviao** lista, Aviao*);
 void MostraLista(Desventura* pista);
 void IndexaDesventuraOrdenado(Desventura* elemento, Desventura** lista);
 void AdicionaAviao (Aviao** pista, int value);
 void IndexaNoInicio(Aviao* elemento, Aviao** lista);
 void IndexaOrdenado(Aviao* elemento, Aviao** lista);
-void Reordena(Aviao** lista, int codigo);
+void ReordenaCeu(Aviao* aviao);
 void LogGlobal();
 void DesalocaAviao(Aviao** lista);
 void InsereDesventura(TipoDesventura tipo, int turno);
