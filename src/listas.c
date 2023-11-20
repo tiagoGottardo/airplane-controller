@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "../include/listas.h"
 #include "../include/eventos.h"
@@ -55,6 +56,7 @@ void LogGlobal() {
     iterator = local.ceu;
     while(iterator) {
       printf("Codigo:%3d | Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->codigo, iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+      printf("Distancia restante: %f\n", iterator->distancia - sqrt(pow(iterator->coordenada.x, 2) + pow(iterator->coordenada.y, 2))   );
 
       iterator = iterator->proximo;
     } 
@@ -65,6 +67,7 @@ void LogGlobal() {
 
 //Funcao Ilustrativa
 void MostraLista(Desventura* lista) {
+  if(!lista) return;
   Desventura* iterator = lista;
 
   while(iterator) {
@@ -94,23 +97,21 @@ void InsereDesventura(TipoDesventura tipo, int turno) {
   Desventura* novo = (Desventura *) malloc(sizeof(Desventura));
   novo->tipo = tipo;
   novo->turno = turno;
+  novo->proximo = NULL;
   IndexaDesventuraOrdenado(novo, &desventura);
 }
 
-//Ilustrativa
-void Reordena(Aviao** lista, int codigo) {
+void ReordenaCeu(Aviao* aviao) {
+  if(((!aviao->anterior) || aviao->anterior->coordenada.z <= aviao->coordenada.z) && ((!aviao->proximo) || aviao->proximo->coordenada.z > aviao->coordenada.z)) return;
 
-  Aviao* elemento = RetiraPorCodigo(lista, codigo);
+  Aviao* elemento = Retira(&local.ceu, aviao);
  
   if(!elemento) {
     printf("Um aviao com esse codigo nao se encontra no ceu!\n");
     return;
   }
-  //Codigo a ser retirado
-  elemento->coordenada.z = NumeroEntre(400, 900);
 
-  IndexaOrdenado(elemento, lista);
-
+  IndexaOrdenado(elemento, &local.ceu);
 }
 
 Aviao* InsereNoFim(Aviao** cabeca) {
@@ -130,6 +131,8 @@ Aviao* InsereNoFim(Aviao** cabeca) {
   node->anterior = iterator;
   iterator->proximo = node;
 
+  node->proximo = NULL;
+
   return node;
 }
 
@@ -143,26 +146,20 @@ void IndexaNoInicio(Aviao* elemento, Aviao** lista){
   }
 }
 
-Aviao* RetiraPorCodigo(Aviao** lista, int codigo) {
+Aviao* Retira(Aviao** lista, Aviao* aviao) {
   if(!(*lista)) return NULL;
 
-  Aviao* iterator = *lista;
-  while(iterator) {
-    if(codigo == iterator->codigo) {
-      if(iterator->proximo) iterator->proximo->anterior = iterator->anterior;
-      if(iterator->anterior) {
-        iterator->anterior->proximo = iterator->proximo;
+      if(aviao->proximo) aviao->proximo->anterior = aviao->anterior;
+      if(aviao->anterior) {
+        aviao->anterior->proximo = aviao->proximo;
       } else {
-        *lista = iterator->proximo;
+        *lista = aviao->proximo;
       }
-      iterator->proximo = NULL;
-      iterator->anterior = NULL;
+      aviao->proximo = NULL;
+      aviao->anterior = NULL;
 
-      return iterator;
-    }
+      return aviao;
 
-    iterator = iterator->proximo;
-  }
   return NULL;
 }
 
