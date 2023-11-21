@@ -43,7 +43,7 @@ void LogGlobal() {
       iterator = local.pista[i];
 
       while(iterator) {
-        printf("Codigo:%3d | Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->codigo, iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+        printf("Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
 
         iterator = iterator->proximo;
       }
@@ -51,21 +51,31 @@ void LogGlobal() {
     printf("\n");
   }
 
+
   printf("Ceu:\n");
   if(local.ceu) {
     iterator = local.ceu;
     while(iterator) {
-      printf("Codigo:%3d | Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->codigo, iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+      printf("Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f) | ", iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
       printf("Distancia restante: %f\n", iterator->distancia - sqrt(pow(iterator->coordenada.x, 2) + pow(iterator->coordenada.y, 2))   );
 
       iterator = iterator->proximo;
     } 
-    printf("\n");
   }
-  printf("-----------------------------------------------------------------------------------------\n");
+  printf("\n");
+
+  printf("Destino:\n");
+  if(local.destino) {
+    iterator = local.destino;
+    while(iterator) {
+      printf("Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+
+      iterator = iterator->proximo;
+    } 
+  }
+  printf("---------------------------------------------------------------------------------------------------------------------------------------\n");
 }
 
-//Funcao Ilustrativa
 void MostraLista(Desventura* lista) {
   if(!lista) return;
   Desventura* iterator = lista;
@@ -136,31 +146,37 @@ Aviao* InsereNoFim(Aviao** cabeca) {
   return node;
 }
 
-void IndexaNoInicio(Aviao* elemento, Aviao** lista){
+void IndexaNoFim(Aviao* elemento, Aviao** lista){
   if(!(*lista))  {
     *lista = elemento;
-  } else {
-    elemento->proximo = *lista;
-    (*lista)->anterior = elemento;
-    *lista = elemento;
-  }
+    return;
+  } 
+  
+  Aviao* iterator = *lista;
+
+  while(iterator->proximo) iterator = iterator->proximo;
+
+  // node->anterior = iterator;
+  // iterator->proximo = node;
+  elemento->anterior = iterator;
+  iterator->proximo = elemento;
+
 }
 
 Aviao* Retira(Aviao** lista, Aviao* aviao) {
   if(!(*lista)) return NULL;
 
-      if(aviao->proximo) aviao->proximo->anterior = aviao->anterior;
-      if(aviao->anterior) {
-        aviao->anterior->proximo = aviao->proximo;
-      } else {
-        *lista = aviao->proximo;
-      }
-      aviao->proximo = NULL;
-      aviao->anterior = NULL;
+  if(aviao->proximo) aviao->proximo->anterior = aviao->anterior;
+  if(aviao->anterior) {
+   aviao->anterior->proximo = aviao->proximo;
+  } else {
+   *lista = aviao->proximo;
+  }
 
-      return aviao;
+  aviao->proximo = NULL;
+  aviao->anterior = NULL;
 
-  return NULL;
+  return aviao;
 }
 
 void IndexaOrdenado(Aviao* elemento, Aviao** lista) {
