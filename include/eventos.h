@@ -1,5 +1,5 @@
 void InicializaPistas(int quantidadeDePistas);
-void SpawnaAviao(char* idPista, int codigo, char* modelo, char* cidadeDestino, float distancia, int tempoEstimadoDeVoo);
+void SpawnaAviao(int idPista, int codigo, char* modelo, char* destino, int distancia, int tempoEstimadoDeVoo);
 void Decola(int numPista);
 int NumeroEntre(int a, int b);
 void IniciaSimulacao(int totalDeTurnos);

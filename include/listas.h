@@ -52,12 +52,12 @@ extern Desventura* desventura;
 #define PI 3.141592653589 
 
 Aviao* InsereNoFim(Aviao **cabeca);
-Aviao* Retira(Aviao** lista, Aviao*);
 void MostraLista(Desventura* pista);
 void IndexaDesventuraOrdenado(Desventura* elemento, Desventura** lista);
 void AdicionaAviao (Aviao** pista, int value);
-void IndexaNoInicio(Aviao* elemento, Aviao** lista);
+Aviao* Retira(Aviao** lista, Aviao* aviao);
 void IndexaOrdenado(Aviao* elemento, Aviao** lista);
+void IndexaNoFim(Aviao* elemento, Aviao** lista);
 void ReordenaCeu(Aviao* aviao);
 void LogGlobal();
 void DesalocaAviao(Aviao** lista);
