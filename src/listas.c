@@ -37,26 +37,26 @@ void DesalocaDesventura(Desventura** lista) {
 
 void LogGlobal() {
   Aviao* iterator;
-  for(int i = 0; i < local.quantidadeDePistas; i++) {
-    printf("Pista %d:\n", i + 1);
-    if(local.pista[i]) {
-      iterator = local.pista[i];
+  // for(int i = 0; i < local.quantidadeDePistas; i++) {
+  //   printf("Pista %d:\n", i + 1);
+  //   if(local.pista[i]) {
+  //     iterator = local.pista[i];
 
-      while(iterator) {
-        printf("Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+  //     while(iterator) {
+  //       printf("Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
 
-        iterator = iterator->proximo;
-      }
-    }
-    printf("\n");
-  }
+  //       iterator = iterator->proximo;
+  //     }
+  //   }
+  //   printf("\n");
+  // }
 
 
   printf("Ceu:\n");
   if(local.ceu) {
     iterator = local.ceu;
     while(iterator) {
-      printf("Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f) | ", iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+      printf("Codigo: %3d | Velocidade: (%3.2f;%3.2f;%3.2f) | Coordenada: (%3.2f;%3.2f;%3.2f) | ", iterator->codigo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
       printf("Distancia restante: %f\n", iterator->distancia - sqrt(pow(iterator->coordenada.x, 2) + pow(iterator->coordenada.y, 2))   );
 
       iterator = iterator->proximo;
@@ -68,7 +68,7 @@ void LogGlobal() {
   if(local.destino) {
     iterator = local.destino;
     while(iterator) {
-      printf("Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+      printf("Codigo: %3d| Velocidade: (%3.2f;%3.2f;%3.2f) | Coordenada: (%3.2f;%3.2f;%3.2f)\n", iterator->codigo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
 
       iterator = iterator->proximo;
     } 
@@ -99,11 +99,6 @@ void MostraLista(Desventura* lista) {
 }
 
 void InsereDesventura(TipoDesventura tipo, int turno) {
-  if(turno < 1) {
-    printf("O turno escolhido 'e invalido!\n");
-    return;
-  }
-
   Desventura* novo = (Desventura *) malloc(sizeof(Desventura));
   novo->tipo = tipo;
   novo->turno = turno;
@@ -156,8 +151,6 @@ void IndexaNoFim(Aviao* elemento, Aviao** lista){
 
   while(iterator->proximo) iterator = iterator->proximo;
 
-  // node->anterior = iterator;
-  // iterator->proximo = node;
   elemento->anterior = iterator;
   iterator->proximo = elemento;
 
@@ -243,10 +236,10 @@ void IndexaDesventuraOrdenado(Desventura* elemento, Desventura** lista) {
 
 void DeletaDesventura(Desventura** cabeca) {
   if(!(*cabeca)) return;
-  
   Desventura* proximo = (*cabeca)->proximo;
 
   (*cabeca)->proximo = NULL;
+  (*cabeca)->turno = 0;
   free(*cabeca);
   *cabeca = NULL;
 

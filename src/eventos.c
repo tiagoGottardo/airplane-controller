@@ -1,13 +1,3 @@
-//*InicializaPistas
-//*SpawnaAviao
-//*Decola
-//*IniciaSimulacao
-//Aterrissa
-//*Finaliza
-//*VerificaColisoes
-//*MoveAviao
-//*AplicaDesventura
-
 #define MAX_ALTITUDE 12.000
 #define MIN_ALTITUDE 10.000
 
@@ -58,7 +48,7 @@ void Aterrissa(Aviao* aviao) {
   else if(retirado->tempoReal > retirado->tempoEstimado) printf("%s chegou depois do esperado!\n", retirado->modelo);
   else printf("%s chegou no tempo esperado!\n", retirado->modelo);
   printf("%s aterrissou!\n", retirado->modelo);
-  
+
   retirado->estado = CONCLUIDO;
 
   retirado->velocidade.x = 0; 
@@ -170,7 +160,12 @@ int Sorteio(Aviao** aviao, int ticket) {
     }
 
   } else {
-    return NumeroEntre(1, ticket);
+    int resultado = NumeroEntre(1, ticket); 
+    if(resultado == ticket) {
+        AplicaDesventura(aviao);
+        ReordenaCeu(*aviao);   
+    }
+    return resultado;
   }
 }
 
@@ -192,8 +187,8 @@ void Decola(int numPista) {
   Aviao* retirado = Retira(&local.pista[numPista - 1], local.pista[numPista - 1]);
 
   float deslocamentoNaDecolagem = NumeroEntre(1500, 2500)/1000.0;
-  // printf("Velocidade na decolagem = %3.4f\n", deslocamentoNaDecolagem);
-  // printf("Direcao = %3.4f\n", retirado->direcao);
+  printf("Velocidade na decolagem = %3.4f\n", deslocamentoNaDecolagem);
+  printf("Destino: %5s | Direcao = %3.4f\n\n", retirado->destino, retirado->direcao);
 
   if(NumeroEntre(0, 1))
     retirado->coordenada.x = (deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
@@ -210,7 +205,6 @@ void Decola(int numPista) {
   retirado->velocidade.z = 0;
 
   retirado->estado = VOANDO;
-  // etc...
 
   IndexaOrdenado(retirado, &(local.ceu));  
 
@@ -229,13 +223,11 @@ void InicializaPistas(int quantidadeDePistas) {
   local.destino = NULL;
 }
 
-void SpawnaAviao(char* idPista, int codigo, char* modelo, char* cidadeDestino, float distancia, int tempoEstimadoDeVoo) {
-  int numPista;
-  sscanf(idPista, "f%d", &numPista);
+void SpawnaAviao(int idPista, int codigo, char* modelo, char* destino, int distancia, int tempoEstimadoDeVoo) {
 
-  Aviao* novoAviao = InsereNoFim(&local.pista[numPista - 1]);
+  Aviao* novoAviao = InsereNoFim(&local.pista[idPista - 1]);
   
-  novoAviao->numPista = numPista;
+  novoAviao->numPista = idPista;
   novoAviao->codigo = codigo;
   novoAviao->modelo = modelo;
   novoAviao->distancia = distancia;
@@ -248,9 +240,11 @@ void SpawnaAviao(char* idPista, int codigo, char* modelo, char* cidadeDestino, f
   novoAviao->velocidade.y = 0;
   novoAviao->velocidade.z = 0;
   novoAviao->estado = ESPERANDO;
-  novoAviao->destino = cidadeDestino;
+  novoAviao->destino = destino;
   
-  novoAviao->direcao = tan(NumeroEntre(0, 360)*PI/180.0);
+  int valor = 0;
+  for(int i = 0; novoAviao->destino[i] != '\0'; i++) valor += novoAviao->destino[i]; 
+  novoAviao->direcao = tan((valor % 360)*PI/180.0);
 
 }
 

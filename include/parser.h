@@ -1,6 +1,6 @@
+#include "../include/validacoes.h"
 typedef enum {
     TIPO_INT,
-    TIPO_FLOAT,
     TIPO_STRING
 } TipoParametro;
 
