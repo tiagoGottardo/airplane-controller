@@ -88,7 +88,7 @@ void AviaoMove(Aviao** lista) {
   while(iterator) {
     while(iterator->proximo && VerificaColisoes(iterator, iterator->proximo)) colisoes++;
     if(colisoes) {
-      printf("Uma colisao com o avião %i foi evitada.\n", iterator->codigo);
+      printf("Uma colisao entre o avião %i e o avião %i foi evitada.\n", iterator->codigo, iterator->proximo->codigo);
       colisoes = 0;
     }
 
