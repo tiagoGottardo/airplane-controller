@@ -6,7 +6,7 @@
 
 void Pistas(void **parametros) {
   int *qtdDePistas = (int *)parametros[0];
-  printf("Chamou a função Pistas\n");
+  logInitPistas(*qtdDePistas);
   if(*qtdDePistas < 1) {
     printf("Voce precisa de pelo menos uma pista!\n\n");
     return;
@@ -25,7 +25,7 @@ void InsereAviao(void **parametros) {
   int* tempoEstimado = (int *)parametros[5];
 
   if(!local.quantidadeDePistas) return;
-  printf("Chamou a função InsereAviao\n");
+  logInitAvioes();
   if(*pista > local.quantidadeDePistas || *pista < 1) {
     printf("Essa pista nao existe!\n\n");
     return;
