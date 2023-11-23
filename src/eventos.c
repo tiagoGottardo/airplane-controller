@@ -44,10 +44,10 @@ int VerificaColisoes(Aviao* aviao, Aviao* comparacao) {
 void Aterrissa(Aviao* aviao) {
   Aviao* retirado = Retira(&local.ceu, aviao);
 
-  if(retirado->tempoReal < retirado->tempoEstimado) printf("%s chegou antes do esperado!\n", retirado->modelo);
-  else if(retirado->tempoReal > retirado->tempoEstimado) printf("%s chegou depois do esperado!\n", retirado->modelo);
-  else printf("%s chegou no tempo esperado!\n", retirado->modelo);
-  printf("%s aterrissou!\n", retirado->modelo);
+  if(retirado->tempoReal < retirado->tempoEstimado) printf("O avião %i chegou antes do esperado!\n", retirado->codigo);
+  else if(retirado->tempoReal > retirado->tempoEstimado) printf("O avião %i chegou depois do esperado!\n", retirado->codigo);
+  else printf("O avião %i chegou no tempo esperado!\n", retirado->codigo);
+  printf("O avião %i aterrissou!\n", retirado->codigo);
 
   retirado->estado = CONCLUIDO;
 
@@ -74,7 +74,7 @@ void VerificaAterrissagem(Aviao* aviao) {
 
   if(aviao->estado == VOANDO) {
     aviao->estado = ATERRISSANDO;
-    printf("%s comecou a aterrissagem\n", aviao->modelo);
+    printf("O avião %i comecou a aterrissagem\n", aviao->codigo);
   }
 
   if(distanciaRestante <= 0.2) {
@@ -88,7 +88,7 @@ void AviaoMove(Aviao** lista) {
   while(iterator) {
     while(iterator->proximo && VerificaColisoes(iterator, iterator->proximo)) colisoes++;
     if(colisoes) {
-      printf("Uma colisao com %s foi evitada.\n", iterator->modelo);
+      printf("Uma colisao com o avião %i foi evitada.\n", iterator->codigo);
       colisoes = 0;
     }
 
@@ -107,7 +107,7 @@ void AviaoMove(Aviao** lista) {
 void AplicaDesventura(Aviao** aviao) {
   switch(desventura->tipo) {
     case TEMPESTADE:
-      printf("Aconteceu uma tempestade com o %s.\n", (*aviao)->modelo);
+      printf("Aconteceu uma tempestade com o avião %i.\n", (*aviao)->codigo);
       if(((MAX_ALTITUDE + MIN_ALTITUDE)/2) >= (*aviao)->coordenada.z) 
         (*aviao)->coordenada.z += 0.3;
       else 
@@ -122,7 +122,7 @@ void AplicaDesventura(Aviao** aviao) {
       }
     break;
     case NEBLINA:
-      printf("Aconteceu uma neblina com o %s.\n", (*aviao)->modelo);
+      printf("Aconteceu uma neblina com o avião %i.\n", (*aviao)->codigo);
       if(((MAX_ALTITUDE + MIN_ALTITUDE)/2) >= (*aviao)->coordenada.z) 
         (*aviao)->coordenada.z += 0.5;
       else 
@@ -137,7 +137,7 @@ void AplicaDesventura(Aviao** aviao) {
       }
       break;
     case TURBULENCIA:
-      printf("Aconteceu uma turbulencia com o %s.\n", (*aviao)->modelo);
+      printf("Aconteceu uma turbulencia com o avião %i.\n", (*aviao)->codigo);
       (*aviao)->velocidade.x *= 0.85;
       (*aviao)->velocidade.y *= 0.85;
     break;
@@ -229,7 +229,6 @@ void SpawnaAviao(int idPista, int codigo, char* modelo, char* destino, int dista
   
   novoAviao->numPista = idPista;
   novoAviao->codigo = codigo;
-  novoAviao->modelo = modelo;
   novoAviao->distancia = distancia;
   novoAviao->tempoEstimado = tempoEstimadoDeVoo;
   novoAviao->tempoReal = 0;
