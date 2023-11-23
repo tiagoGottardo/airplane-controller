@@ -1,32 +1,37 @@
 # airplane-controller
 Um simulador de inteligência artificial para gerenciamento de tráfego aéreo.
 
-Para rodar o repositório, precisamos do:
-- gcc
-- cmake
-- make
+## Dependências para compilar o programa
+Para rodar o projeto estamos utilizando
+- [gcc](https://gcc.gnu.org/releases.html)
+- [cmake](https://cmake.org/download/)
+- [make](https://www.gnu.org/software/make/)
 
-No Linux, provavelmente tudo já está instalado por padrão, mas qualquer coisa só rodar sudo apt-get install.
-No Windows, vocês já tem o MinGW, então precisa instalar os outros com esse comandos: 
+A intalação pode variar de acordo com o sistama operacional que você estiver utilizando, no windows pode ser feita com:
+```sh
+choco install cmake.install --version=3.13.1
+choco install make
+```
 
-- choco install cmake.install --version=3.13.1
-- choco install make
-
-Para ver se tudo está instalado corretamente:
+### Verifique se tudo está instalado corretamente
+```sh
 gcc --version
 make --version
 cmake --version
+```
 
-Agora só adicionar esse alias no .bashrc e gg
-
+### Adicione crun como alias
+No arquivo de configuração do seu terminal adicione o alias:
+#### windows
+~~~sh
 alias crun='clear; cd build; cmake -G "MinGW Makefiles" .. > /dev/null; make > /dev/null; cd ..; ./build/AirplaneController.exe'
-Rodando no windows
- 
+~~~
+#### linux
+~~~sh
 alias crun='clear; cd ./build; cmake .. > /dev/null; make > /dev/null; cd ../; ./build/AirplaneController'
-Rodando no linux
+~~~
 
+### Contribuição com o projeto
 Para adicionar qualquer biblioteca é só adicionar o arquivo .c em /src e o arquivo .h em /include
 
 ![image](https://github.com/tiagoGottardo/airplane-controller/assets/50255813/bc842a14-4baa-43ca-b987-517f2d7345dc)
-
-smslksmlakop
