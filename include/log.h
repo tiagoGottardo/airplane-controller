@@ -1,2 +1,3 @@
-void logInitPistas(int numPista);
-void logInitAvioes();
+void initLogFile();
+void logErro(char* functionName,char * errorBody);
+void logParserFunctions(char * functionName);
