@@ -1,4 +1,6 @@
 #include "../include/validacoes.h"
+#include "../include/log.h"
+
 typedef enum {
     TIPO_INT,
     TIPO_STRING
