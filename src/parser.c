@@ -36,7 +36,7 @@ void LeArquivo() {
   if (arquivo == NULL) {
     logErro("parser_learquivo","Erro ao abrir o arquivo");
     return;
-  }else initLogFile(NULL);
+  }
 
   char linha[100];
 
