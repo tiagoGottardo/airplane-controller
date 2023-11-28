@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "../include/parser.h"
+#include "../include/interface.h"
 
 Local local;
 Desventura* desventura = NULL;
@@ -10,7 +10,7 @@ Desventura* desventura = NULL;
 int main() {
   srand(((unsigned int)time(NULL)));
 
-  LeArquivo();
+  interface();
 
   // InicializaPistas(2);
 

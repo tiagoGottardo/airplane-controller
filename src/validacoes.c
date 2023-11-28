@@ -1,18 +1,15 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 
 #include "../include/validacoes.h"
 
 void Pistas(void **parametros) {
   int *qtdDePistas = (int *)parametros[0];
-  printf("Chamou a função Pistas\n");
   if(*qtdDePistas < 1) {
-    printf("Voce precisa de pelo menos uma pista!\n\n");
+    logErro("validações_pistas", "Voce precisa de pelo menos uma pista.");
     return;
   }
 
-  printf("\n");
   InicializaPistas(*qtdDePistas);
 }
 
@@ -25,23 +22,21 @@ void InsereAviao(void **parametros) {
   int* tempoEstimado = (int *)parametros[5];
 
   if(!local.quantidadeDePistas) return;
-  printf("Chamou a função InsereAviao\n");
   if(*pista > local.quantidadeDePistas || *pista < 1) {
-    printf("Essa pista nao existe!\n\n");
+    logErro("validações_insereavião", "Essa pista nao existe.");
     return;
   }
 
   if(*distancia < 1) {
-    printf("A distancia precisa ser maior que 0!\n\n");
+    logErro("validações_insereavião", "A distancia precisa ser maior que 0.");
     return;
   }
 
   if(*tempoEstimado < 1) {
-    printf("O tempo estimado precisa ser maior que 0!\n\n");
+    logErro("validações_insereavião", "O tempo estimado precisa ser maior que 0.");
     return;
   }
 
-  printf("\n");
   SpawnaAviao(*pista, *codigo, strdup(modelo), strdup(destino), *distancia, *tempoEstimado);
 }
 
@@ -49,13 +44,12 @@ void Decolar(void **parametros) {
   int *pista = (int *)parametros[0];
   
   if(!local.quantidadeDePistas) return;
-  printf("Chamou a função Decolar\n");
   if(*pista > local.quantidadeDePistas || *pista < 1) {
-    printf("Essa pista nao existe!\n\n");
+    logErro("validações_decolar", "Essa pista nao existe.");
     return;
   }
   if(!local.pista[*pista - 1]) {
-    printf("Nao tem nenhum aviao nessa pista!\n\n");
+    logErro("validações_decolar", "Nao tem nenhum aviao nessa pista!\n\n");
     return;
   }
 
@@ -66,12 +60,10 @@ void IniciarSimulacao(void **parametros) {
   int *qtdDeTurnos = (int *)parametros[0];
 
   if(!local.quantidadeDePistas) return;
-  printf("Chamou a função IniciaSimulacao\n");
   if(*qtdDeTurnos < 1) {
-    printf("A simulacao precisa mais tempo!\n\n");
+    logErro("validações_iniciarsimulação", "A simulacao precisa de tempo maior ou igual a 1.");
     return;
   }
-  printf("\n");
 
   IniciaSimulacao(*qtdDeTurnos); 
 }
@@ -79,48 +71,38 @@ void IniciarSimulacao(void **parametros) {
 void Tempestade(void **parametros) {
   int* turno = (int *) parametros[0];
 
-  printf("Chamou a função Tempestade no turno %d\n", *turno);
-
   if(!local.quantidadeDePistas) return;
   if(*turno < 1) {
-    printf("O tempo da tempestade 'e invalido!\n");
+    logErro("validações_insereavião", "O tempo da tempestade precisa ser maior ou igual a 1");
     return;
   }
 
-  printf("\n");
   InsereDesventura(TEMPESTADE, *turno);
 }
 void Turbulencia(void **parametros) {
   int* turno = (int *) parametros[0];
 
-  printf("Chamou a função Turbulencia no turno %d\n", *turno);
-
   if(!local.quantidadeDePistas) return;
   if(*turno < 1) {
-    printf("O tempo da turbulencia 'e invalido!\n");
+    logErro("validações_insereavião", "O tempo da turbulencia precisa ser maior ou igual a 1");
     return;
   }
 
-  printf("\n");
   InsereDesventura(TURBULENCIA, *turno);
 }
 
 void Neblina(void **parametros) {
   int* turno = (int *) parametros[0];
 
-  printf("Chamou a função Neblina no turno %d\n", *turno);
-
   if(!local.quantidadeDePistas) return;
   if(*turno < 1) {
-    printf("O tempo da neblina 'e invalido!\n");
+    logErro("validações_insereavião", "O tempo da neblina precisa ser maior ou igual a 1");
     return;
   }
 
-  printf("\n");
   InsereDesventura(NEBLINA, *turno);
 }
 
 void Fim(void **parametros) {
-  printf("Chamou a função fim\n\n");
   Finaliza(); 
 }

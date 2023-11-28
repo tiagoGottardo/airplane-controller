@@ -1,67 +1,47 @@
-//para ler e adicionar coisas num arquivo
 #include<stdio.h>
 #include<stdlib.h>
+#include <stdarg.h>
 
-void le_arquivo (FILE **arquivo)
-{
-    FILE *farq=*arquivo;
-  char texto[1000], nomeDoArquivo[1000];
-  printf("Qual é o nome do seu arquivo?");
-  scanf("%s",nomeDoArquivo);
-    getchar();  
+#include"../include/log.h"
 
-  
-  farq = fopen (nomeDoArquivo, "w+");
-  
+void logErro(char* functionName,char * errorBody);
 
-  if (farq == NULL)
-    {
-      printf ("\nProblemas em escrever no arquivo!");
-    }
+void logMessage(const char *format, ...) {
+  FILE *logFile = fopen("logfile.txt", "a");
+  if (logFile == NULL) {
+    logErro("log_logmessage","ERRO: não foi possível abrir o arquivo de LOG");
+    return;
+  }
 
-  printf ("\nDigite o que voce quer digitar no arquivo: ");
-  fgets (texto,1000, stdin );
-    
-  fprintf (farq, "%s", texto);
+  // Escrever a mensagem formatada no arquivo de log
+  va_list args;
+  va_start(args, format);
+  vfprintf(logFile, format, args);
+  va_end(args);
 
-  fclose (farq);
+  // Adicionar uma quebra de linha
+  fprintf(logFile, "\n");
 
-}
-/* EXEMPLO DE COMO ELE FICA COM A MAIN:
-#include<stdio.h>
-#include<stdlib.h>
-
-void le_arquivo (FILE **arquivo)
-{
-    FILE *farq=*arquivo;
-  char texto[1000], nomeDoArquivo[1000];
-  printf("Qual é o nome do seu arquivo?");
-  scanf("%s",nomeDoArquivo);
-    getchar();  
-
-  
-  farq = fopen (nomeDoArquivo, "w+");
-  
-
-  if (farq == NULL)
-    {
-      printf ("\nProblemas em escrever no arquivo!");
-    }
-
-  printf ("\nDigite o que voce quer digitar no arquivo: ");
-  fgets (texto,1000, stdin );
-    
-  fprintf (farq, "%s", texto);
-
-  fclose (farq);
-
+  // Fechar o arquivo de log
+  fclose(logFile);
 }
 
-int
-main ()
-{
-    FILE *farq;
-    le_arquivo ( &farq);
-    
-return 0;
-}*/
+void initLogFile(){
+  FILE *logFile = fopen("logfile.txt", "w");
+  if (logFile == NULL) {
+    logErro("log_initlogfile", "ERRO: Não foi possível criar arquivo de log, o programa tem permição para isso?");
+    return;
+  }
+
+  fprintf(logFile, "[Início do arquivo de Log]\n");
+  fclose(logFile);
+}
+
+void logErro(char* functionName,char * errorBody){
+  printf("[ERRO] A função [%s] retornou erro: \n[ERRO]:{%s}", functionName, errorBody);
+  logMessage("[ERRO] A função [%s] retornou erro: \n[ERRO]:{%s}", functionName, errorBody);
+}
+
+void logParserFunctions(char * functionName){
+  logMessage("O arquivo de entrada foi lido e chamou a função %s", functionName); 
+}

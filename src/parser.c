@@ -34,8 +34,8 @@ void LeArquivo() {
   FILE *arquivo = fopen("entrada.txt", "r");
 
   if (arquivo == NULL) {
-    printf("Erro ao abrir o arquivo");
-      return;
+    logErro("parser_learquivo","Erro ao abrir o arquivo");
+    return;
   }
 
   char linha[100];
@@ -85,6 +85,7 @@ void ChamaFuncoes(char **elementos, int numElementos) {
         }
       }
 
+      logParserFunctions(mapeamento[i].nome);
       mapeamento[i].funcao(parametros);
 
       for (int j = 0; j < mapeamento[i].numParametros; ++j) {
@@ -96,6 +97,6 @@ void ChamaFuncoes(char **elementos, int numElementos) {
     }
   }
 
-    printf("Função não encontrada\n\n");
+    logErro("parser_chamafunções","Função não encontrada\n\n");
     return;
 }

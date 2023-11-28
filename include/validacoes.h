@@ -1,5 +1,6 @@
 #include "../include/eventos.h"
 #include "../include/listas.h"
+#include "../include/log.h"
 
 void Pistas(void **parametros);
 void InsereAviao(void **parametros);

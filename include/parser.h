@@ -1,4 +1,6 @@
 #include "../include/validacoes.h"
+#include "../include/log.h"
+
 typedef enum {
     TIPO_INT,
     TIPO_STRING
@@ -13,3 +15,5 @@ typedef struct {
 
 void ChamaFuncoes(char **elementos, int numElementos);
 void LeArquivo();
+void separaelementos();
+void SeparaElementos(const char *linha, char ***elementos, int *numElementos);
