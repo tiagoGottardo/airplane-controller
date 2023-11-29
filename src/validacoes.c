@@ -110,6 +110,7 @@ void Tempestade(void **parametros) {
     return;
   }
 
+  printf("\n Uma tempestade acontecerá no turno %d!\n\n", *turno);
   InsereDesventura(TEMPESTADE, *turno);
 }
 void Turbulencia(void **parametros) {
@@ -126,6 +127,7 @@ void Turbulencia(void **parametros) {
     return;
   }
 
+  printf("\n Uma turbulência acontecerá no turno %d!\n\n", *turno);
   InsereDesventura(TURBULENCIA, *turno);
 }
 
@@ -143,6 +145,7 @@ void Neblina(void **parametros) {
     return;
   }
 
+  printf("\n Uma neblina acontecerá no turno %d!\n\n", *turno);
   InsereDesventura(NEBLINA, *turno);
 }
 
