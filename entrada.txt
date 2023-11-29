@@ -50,7 +50,7 @@ decolar 3
 decolar 2
 decolar 1
 tempestade 2
-neblina 3
+neblina 2
 turbulencia 4 
 iniciasimulacao 500
 fim

@@ -1,8 +1,8 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
 
-#include"../include/log.h"
+#include "../include/log.h"
 
 void logErro(char* functionName,char * errorBody);
 
@@ -38,7 +38,7 @@ void initLogFile(){
 }
 
 void logErro(char* functionName,char * errorBody){
-  printf("[ERRO] A função [%s] retornou erro: \n[ERRO]:{%s}", functionName, errorBody);
+  // printf("\n[ERRO] A função [%s] retornou erro: \n[ERRO]:{%s}\n\n", functionName, errorBody);
   logMessage("[ERRO] A função [%s] retornou erro: \n[ERRO]:{%s}", functionName, errorBody);
 }
 
