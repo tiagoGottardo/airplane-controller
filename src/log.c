@@ -45,3 +45,20 @@ void logErro(char* functionName,char * errorBody){
 void logParserFunctions(char * functionName){
   logMessage("O arquivo de entrada foi lido e chamou a função %s", functionName); 
 }
+
+void logEvent(const char *format, ...){
+  va_list args;
+  va_start(args, format);
+  vprintf(format, args);
+
+  va_list args_copy;
+  va_copy(args_copy, args);
+
+  logMessage(format, args_copy);
+
+  va_end(args);
+  va_end(args_copy);
+  
+  getchar();
+
+}
