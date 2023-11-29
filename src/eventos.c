@@ -1,5 +1,10 @@
 #define MAX_ALTITUDE 12.000
 #define MIN_ALTITUDE 10.000
+#define dturbulenciaV 0.85
+#define dneblinaA 0.5
+#define dneblinaV 1.05
+#define dtempestadeA 0.3
+#define dtempestadeV 1.1
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -114,37 +119,37 @@ void AplicaDesventura(Aviao** aviao) {
     case TEMPESTADE:
       logEvent("Aconteceu uma tempestade com o avião %i.\n", (*aviao)->codigo);
       if(((MAX_ALTITUDE + MIN_ALTITUDE)/2) >= (*aviao)->coordenada.z) 
-        (*aviao)->coordenada.z += 0.3;
+        (*aviao)->coordenada.z += dtempestadeA;
       else 
-        (*aviao)->coordenada.z -= 0.3;
+        (*aviao)->coordenada.z -= dtempestadeA;
 
       if(NumeroEntre(0, 1)) {
-        (*aviao)->velocidade.x *= 1.1;
-        (*aviao)->velocidade.y *= 1.1;
+        (*aviao)->velocidade.x *= dtempestadeV;
+        (*aviao)->velocidade.y *= dtempestadeV;
       } else {
-        (*aviao)->velocidade.x *= 0.9;
-        (*aviao)->velocidade.y *= 0.9;
+        (*aviao)->velocidade.x *= 1-(dtempestadeV-1);
+        (*aviao)->velocidade.y *= 1-(dtempestadeV-1);
       }
     break;
     case NEBLINA:
       logEvent("Aconteceu uma neblina com o avião %i.\n", (*aviao)->codigo);
       if(((MAX_ALTITUDE + MIN_ALTITUDE)/2) >= (*aviao)->coordenada.z) 
-        (*aviao)->coordenada.z += 0.5;
+        (*aviao)->coordenada.z += dneblinaA;
       else 
-        (*aviao)->coordenada.z -= 0.5;
+        (*aviao)->coordenada.z -= dneblinaA;
 
       if(NumeroEntre(0, 1)) {
-        (*aviao)->velocidade.x *= 1.05;
-        (*aviao)->velocidade.y *= 1.05;
+        (*aviao)->velocidade.x *= dneblinaV;
+        (*aviao)->velocidade.y *= dneblinaV;
       } else {
-        (*aviao)->velocidade.x *= 0.95;
-        (*aviao)->velocidade.y *= 0.95;
+        (*aviao)->velocidade.x *= 1-(dneblinaV-1);
+        (*aviao)->velocidade.y *= 1-(dneblinaV-1);;
       }
       break;
     case TURBULENCIA:
       logEvent("Aconteceu uma turbulência com o avião %i.\n", (*aviao)->codigo);
-      (*aviao)->velocidade.x *= 0.85;
-      (*aviao)->velocidade.y *= 0.85;
+      (*aviao)->velocidade.x *= dturbulenciaV;
+      (*aviao)->velocidade.y *= dturbulenciaV;
     break;
   }
 
