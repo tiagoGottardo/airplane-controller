@@ -26,6 +26,20 @@ void logMessage(const char *format, ...) {
   fclose(logFile);
 }
 
+void vlogMessage(const char *format, va_list args) {
+  FILE *logFile = fopen("logfile.txt", "a");
+  if (logFile == NULL) {
+    logErro("log_logmessage","ERRO: não foi possível abrir o arquivo de LOG");
+    return;
+  }
+
+  vfprintf(logFile, format, args);
+
+  fprintf(logFile, "\n");
+
+  fclose(logFile);
+}
+
 void initLogFile(){
   FILE *logFile = fopen("logfile.txt", "w");
   if (logFile == NULL) {
@@ -48,16 +62,13 @@ void logParserFunctions(char * functionName){
 
 void logEvent(const char *format, ...){
   va_list args;
+  va_list copyargs;
+
   va_start(args, format);
-  vprintf(format, args);
-
-  va_list args_copy;
-  va_copy(args_copy, args);
-
-  logMessage(format, args_copy);
-
+  va_copy(copyargs, args);
+  vlogMessage(format, args);
+  vprintf(format, copyargs);
   va_end(args);
-  va_end(args_copy);
   
   getchar();
 
