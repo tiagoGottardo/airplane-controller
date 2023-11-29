@@ -69,6 +69,11 @@ void ChamaFuncoes(char **elementos, int numElementos) {
   for (int i = 0; i < sizeof(mapeamento) / sizeof(mapeamento[0]); ++i) {
     if (strcmp(elementos[0], mapeamento[i].nome) == 0) {
       
+      if((numElementos - 1) < mapeamento[i].numParametros) {
+        printf("\n A quantidade de parâmetros está incorreta.\n\n");
+        return;
+      }
+
       void **parametros = malloc(mapeamento[i].numParametros * sizeof(void *));
 
       for (int j = 0; j < mapeamento[i].numParametros; ++j) {
@@ -98,6 +103,7 @@ void ChamaFuncoes(char **elementos, int numElementos) {
     }
   }
 
-    logErro("parser_chamafunções","Função não encontrada\n\n");
+    logErro("parser_chamafunções", "Função não encontrada");
+    printf("\n Essa função não existe.\n\n");
     return;
 }
