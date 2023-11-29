@@ -5,14 +5,15 @@
 #include "../include/parser.h"
 
 void SeparaElementos(const char *linha, char ***elementos, int *numElementos) {
+  if(!linha) return;
   *numElementos = 0;
 
   char *linhaCopia = strdup(linha);
-  char *tokenCount = strtok(linhaCopia, " ,<>\n");
+  char *tokenCount = strtok(linhaCopia, " ,()\n");
 
   while (tokenCount != NULL) {
     (*numElementos)++;
-    tokenCount = strtok(NULL, " ,<>\n");
+    tokenCount = strtok(NULL, " ,()\n");
   }
 
   free(linhaCopia);
@@ -20,11 +21,11 @@ void SeparaElementos(const char *linha, char ***elementos, int *numElementos) {
   *elementos = (char **)malloc(*numElementos * sizeof(char *));
 
   char *linhaCopia2 = strdup(linha);
-  char *token = strtok(linhaCopia2, " ,<>\n");
+  char *token = strtok(linhaCopia2, " ,()\n");
 
   for (int i = 0; i < *numElementos; i++) {
     (*elementos)[i] = strdup(token);
-    token = strtok(NULL, " ,<>\n");
+    token = strtok(NULL, " ,()\n");
   }
 
   free(linhaCopia2);
