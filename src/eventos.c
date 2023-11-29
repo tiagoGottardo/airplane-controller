@@ -14,6 +14,12 @@ int NumeroEntre(int a, int b){
   else return (rand() % (a - b + 1)) + b;
 }
 
+void delay(int milissegundos) {
+    clock_t inicio = clock();
+
+    while ((clock() - inicio) * 1000 / CLOCKS_PER_SEC < milissegundos);
+}
+
 void ResolveColisoes(Aviao* aviao, Aviao* comparacao) { 
   if((aviao->coordenada.z - 0.05) > MIN_ALTITUDE) {
     aviao->coordenada.z -= 0.05;
@@ -44,10 +50,11 @@ int VerificaColisoes(Aviao* aviao, Aviao* comparacao) {
 void Aterrissa(Aviao* aviao) {
   Aviao* retirado = Retira(&local.ceu, aviao);
 
-  if(retirado->tempoReal < retirado->tempoEstimado) printf("O avião %i chegou antes do esperado!\n", retirado->codigo);
-  else if(retirado->tempoReal > retirado->tempoEstimado) printf("O avião %i chegou depois do esperado!\n", retirado->codigo);
-  else printf("O avião %i chegou no tempo esperado!\n", retirado->codigo);
-  printf("O avião %i aterrissou!\n", retirado->codigo);
+  if(retirado->tempoReal < retirado->tempoEstimado) printf(" O avião %i chegou antes do esperado!\n", retirado->codigo);
+  else if(retirado->tempoReal > retirado->tempoEstimado) printf(" O avião %i chegou depois do esperado!\n", retirado->codigo);
+  else printf(" O avião %i chegou no tempo esperado!\n", retirado->codigo);
+  printf(" O avião %i aterrissou!\n", retirado->codigo);
+  getchar();
 
   retirado->estado = CONCLUIDO;
 
@@ -74,7 +81,8 @@ void VerificaAterrissagem(Aviao* aviao) {
 
   if(aviao->estado == VOANDO) {
     aviao->estado = ATERRISSANDO;
-    printf("O avião %i comecou a aterrissagem\n", aviao->codigo);
+    printf(" O avião %i começou a aterrissagem.", aviao->codigo);
+    getchar();
   }
 
   if(distanciaRestante <= 0.2) {
@@ -88,7 +96,9 @@ void AviaoMove(Aviao** lista) {
   while(iterator) {
     while(iterator->proximo && VerificaColisoes(iterator, iterator->proximo)) colisoes++;
     if(colisoes) {
-      printf("Uma colisao entre o avião %i e o avião %i foi evitada.\n", iterator->codigo, iterator->proximo->codigo);
+      printf(" Uma colisão entre o avião %i e o avião %i foi evitada.\n", iterator->codigo, iterator->proximo->codigo);
+      getchar();
+      printf("\n");
       colisoes = 0;
     }
 
@@ -107,7 +117,7 @@ void AviaoMove(Aviao** lista) {
 void AplicaDesventura(Aviao** aviao) {
   switch(desventura->tipo) {
     case TEMPESTADE:
-      printf("Aconteceu uma tempestade com o avião %i.\n", (*aviao)->codigo);
+      printf(" Aconteceu uma tempestade com o avião %i.\n", (*aviao)->codigo);
       if(((MAX_ALTITUDE + MIN_ALTITUDE)/2) >= (*aviao)->coordenada.z) 
         (*aviao)->coordenada.z += 0.3;
       else 
@@ -122,7 +132,7 @@ void AplicaDesventura(Aviao** aviao) {
       }
     break;
     case NEBLINA:
-      printf("Aconteceu uma neblina com o avião %i.\n", (*aviao)->codigo);
+      printf(" Aconteceu uma neblina com o avião %i.\n", (*aviao)->codigo);
       if(((MAX_ALTITUDE + MIN_ALTITUDE)/2) >= (*aviao)->coordenada.z) 
         (*aviao)->coordenada.z += 0.5;
       else 
@@ -137,12 +147,13 @@ void AplicaDesventura(Aviao** aviao) {
       }
       break;
     case TURBULENCIA:
-      printf("Aconteceu uma turbulencia com o avião %i.\n", (*aviao)->codigo);
+      printf(" Aconteceu uma turbulência com o avião %i.\n", (*aviao)->codigo);
       (*aviao)->velocidade.x *= 0.85;
       (*aviao)->velocidade.y *= 0.85;
     break;
   }
 
+  getchar();
   DeletaDesventura(&desventura);
 }
 
@@ -172,23 +183,31 @@ int Sorteio(Aviao** aviao, int ticket) {
 void IniciaSimulacao(int totalDeTurnos) {
   for(int i = 1; i <= totalDeTurnos; i++) {
 
-    AviaoMove(&local.ceu);
+    system("clear");
+
+    printf(" ===============================================");
+    printf(" Simulação aérea - Minuto: %d", i);
+    printf(" ===============================================\n");
+    LogGlobal();
+
 
     while(desventura && desventura->turno == i) Sorteio(&local.ceu, 1); 
+    AviaoMove(&local.ceu);
 
-    printf("Turno (%d)\n", i);
-    LogGlobal();
+    delay(100);
   }
 
+  printf(" Fim da simulação.\n\n");
+
+
   Finaliza(); 
+  exit(0);
 }
 
 void Decola(int numPista) {
   Aviao* retirado = Retira(&local.pista[numPista - 1], local.pista[numPista - 1]);
 
   float deslocamentoNaDecolagem = NumeroEntre(1500, 2500)/1000.0;
-  printf("Velocidade na decolagem = %3.4f\n", deslocamentoNaDecolagem);
-  printf("Destino: %5s | Direcao = %3.4f\n\n", retirado->destino, retirado->direcao);
 
   if(NumeroEntre(0, 1))
     retirado->coordenada.x = (deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
@@ -197,8 +216,6 @@ void Decola(int numPista) {
 
   retirado->coordenada.y = retirado->coordenada.x * retirado->direcao;
   retirado->coordenada.z = NumeroEntre(10000, 12000)/1000.0;
-  
-  // printf("Prova real: %3.4f == %3.4f\n\n", pow(retirado->coordenada.x, 2) + pow(retirado->coordenada.y, 2), pow(deslocamentoNaDecolagem, 2));
 
   retirado->velocidade.x = (retirado->distancia/retirado->tempoEstimado)/sqrt(pow(retirado->direcao, 2) + 1); 
   retirado->velocidade.y = retirado->velocidade.x * retirado->direcao;
@@ -252,6 +269,9 @@ void Finaliza() {
     DesalocaAviao(&local.pista[i]);
   }
   
+  DesalocaAviao(local.pista);
+  local.quantidadeDePistas = 0;
+
   DesalocaAviao(&local.ceu);
   DesalocaAviao(&local.destino);
 
