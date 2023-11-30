@@ -30,10 +30,6 @@ alias crun='clear; cd build; cmake -G "MinGW Makefiles" .. > /dev/null; make > /
 ~~~sh
 alias crun='clear; cd ./build; cmake .. > /dev/null; make > /dev/null; cd ../; ./build/AirplaneController'
 ~~~
-### MemTest
-```sh
-clear; cd ./build; cmake .. > /dev/null; make >/dev/null; cd ../; valgrind --leak-check=full ./build/AirplaneController
-```
 
 ### Contribuição com o projeto
 Para adicionar qualquer biblioteca é só adicionar o arquivo .c em /src e o arquivo .h em /include
