@@ -5,26 +5,27 @@
 #include "../include/parser.h"
 
 void SeparaElementos(const char *linha, char ***elementos, int *numElementos) {
+  if(!linha) return;
   *numElementos = 0;
 
   char *linhaCopia = strdup(linha);
-  char *tokenCount = strtok(linhaCopia, " ,<>\n");
+  char *tokenCount = strtok(linhaCopia, " ,()\n");
 
   while (tokenCount != NULL) {
     (*numElementos)++;
-    tokenCount = strtok(NULL, " ,<>\n");
+    tokenCount = strtok(NULL, " ,()\n");
   }
 
   free(linhaCopia);
 
-  *elementos = (char **)malloc(*numElementos * sizeof(char *));
+  *elementos = (char **) malloc(*numElementos * sizeof(char *));
 
   char *linhaCopia2 = strdup(linha);
-  char *token = strtok(linhaCopia2, " ,<>\n");
+  char *token = strtok(linhaCopia2, " ,()\n");
 
   for (int i = 0; i < *numElementos; i++) {
     (*elementos)[i] = strdup(token);
-    token = strtok(NULL, " ,<>\n");
+    token = strtok(NULL, " ,()\n");
   }
 
   free(linhaCopia2);
@@ -46,6 +47,11 @@ void LeArquivo() {
     SeparaElementos(linha, &elementos, &numElementos);
     
     ChamaFuncoes(elementos, numElementos);
+
+    for(int i = 0; i < numElementos; i++) {
+      free(elementos[i]);
+    }
+    free(elementos);
   }
 
   fclose(arquivo);
@@ -68,6 +74,11 @@ void ChamaFuncoes(char **elementos, int numElementos) {
   for (int i = 0; i < sizeof(mapeamento) / sizeof(mapeamento[0]); ++i) {
     if (strcmp(elementos[0], mapeamento[i].nome) == 0) {
       
+      if((numElementos - 1) < mapeamento[i].numParametros) {
+        printf("\n A quantidade de parâmetros está incorreta.\n\n");
+        return;
+      }
+
       void **parametros = malloc(mapeamento[i].numParametros * sizeof(void *));
 
       for (int j = 0; j < mapeamento[i].numParametros; ++j) {
@@ -97,6 +108,7 @@ void ChamaFuncoes(char **elementos, int numElementos) {
     }
   }
 
-    logErro("parser_chamafunções","Função não encontrada\n\n");
+    logErro("parser_chamafunções", "Função não encontrada");
+    printf("\n Essa função não existe.\n\n");
     return;
 }

@@ -1,8 +1,8 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
 
-#include"../include/log.h"
+#include "../include/log.h"
 
 void logErro(char* functionName,char * errorBody);
 
@@ -26,6 +26,20 @@ void logMessage(const char *format, ...) {
   fclose(logFile);
 }
 
+void vlogMessage(const char *format, va_list args) {
+  FILE *logFile = fopen("logfile.txt", "a");
+  if (logFile == NULL) {
+    logErro("log_logmessage","ERRO: não foi possível abrir o arquivo de LOG");
+    return;
+  }
+
+  vfprintf(logFile, format, args);
+
+  fprintf(logFile, "\n");
+
+  fclose(logFile);
+}
+
 void initLogFile(){
   FILE *logFile = fopen("logfile.txt", "w");
   if (logFile == NULL) {
@@ -38,10 +52,24 @@ void initLogFile(){
 }
 
 void logErro(char* functionName,char * errorBody){
-  printf("[ERRO] A função [%s] retornou erro: \n[ERRO]:{%s}", functionName, errorBody);
+  // printf("\n[ERRO] A função [%s] retornou erro: \n[ERRO]:{%s}\n\n", functionName, errorBody);
   logMessage("[ERRO] A função [%s] retornou erro: \n[ERRO]:{%s}", functionName, errorBody);
 }
 
 void logParserFunctions(char * functionName){
   logMessage("O arquivo de entrada foi lido e chamou a função %s", functionName); 
+}
+
+void logEvent(const char *format, ...){
+  va_list args;
+  va_list copyargs;
+
+  va_start(args, format);
+  va_copy(copyargs, args);
+  vlogMessage(format, args);
+  vprintf(format, copyargs);
+  va_end(args);
+  
+  //getchar();
+
 }

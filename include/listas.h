@@ -51,6 +51,7 @@ extern Desventura* desventura;
 
 #define PI 3.141592653589 
 
+void VeSituacaoPreSimulacao();
 Aviao* InsereNoFim(Aviao **cabeca);
 void MostraLista(Desventura* pista);
 void IndexaDesventuraOrdenado(Desventura* elemento, Desventura** lista);

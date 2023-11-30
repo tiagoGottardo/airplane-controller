@@ -4,14 +4,6 @@
 
 #include "../include/listas.h"
 #include "../include/eventos.h"
-// *IndexaOrdenado
-// *IndexaNoInicio
-// *Reordena
-// *InsereDesventura
-// *InsereNoFim
-// *RetiraNoInicio
-// *RetiraPorCodigo
-// *Desaloca
 
 void DesalocaAviao(Aviao** lista) {
   if(!(*lista)) return;
@@ -19,6 +11,11 @@ void DesalocaAviao(Aviao** lista) {
   if((*lista)->proximo) {
     DesalocaAviao(&(*lista)->proximo);
   }
+
+  free((*lista)->modelo);
+  free((*lista)->destino);
+  
+  (*lista)->anterior = NULL;
 
   free(*lista);
   *lista = NULL;
@@ -35,45 +32,68 @@ void DesalocaDesventura(Desventura** lista) {
   *lista = NULL;
 }
 
-void LogGlobal() {
+void VeSituacaoPreSimulacao() {
+  if(!local.pista) {
+    printf("\n Nada para ver!\n\n");
+    return;
+  }
+
+  printf("\n");
+
   Aviao* iterator;
-  // for(int i = 0; i < local.quantidadeDePistas; i++) {
-  //   printf("Pista %d:\n", i + 1);
-  //   if(local.pista[i]) {
-  //     iterator = local.pista[i];
+  for(int i = 0; i < local.quantidadeDePistas; i++) {
+    printf(" Pista %d:\n", i + 1);
+    if(local.pista[i]) {
+      iterator = local.pista[i];
 
-  //     while(iterator) {
-  //       printf("Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+      while(iterator) {
+        printf(" ID: %3d | Modelo: %15s | Destino: %15s |\n", iterator->codigo, iterator->modelo, iterator->destino);
+       
+        iterator = iterator->proximo;
+      }
+    }
+    printf("\n");
+  }
 
-  //       iterator = iterator->proximo;
-  //     }
-  //   }
-  //   printf("\n");
-  // }
-
-
-  printf("Ceu:\n");
+  printf(" Céu:\n");
   if(local.ceu) {
     iterator = local.ceu;
     while(iterator) {
-      printf("Codigo: %3d | Velocidade: (%3.2f;%3.2f;%3.2f) | Coordenada: (%3.2f;%3.2f;%3.2f) | ", iterator->codigo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
-      printf("Distancia restante: %f\n", iterator->distancia - sqrt(pow(iterator->coordenada.x, 2) + pow(iterator->coordenada.y, 2))   );
+      printf(" ID: %3d | Modelo: %15s | Destino: %15s |\n", iterator->codigo, iterator->modelo, iterator->destino);
+       
+      iterator = iterator->proximo;
+    } 
+  }
+  printf("\n");
+
+}
+
+void LogGlobal() {
+  Aviao* iterator;
+
+  printf(" Céu:\n\n");
+  if(local.ceu) {
+    iterator = local.ceu;
+    while(iterator) {
+      printf(" ID: %3d | Velocidade: (%6.2f;%6.2f;%6.2f) | Posição: (%8.2f;%8.2f;%8.2f) | ", iterator->codigo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+      printf("Distancia restante: %8.2f\n", iterator->distancia - sqrt(pow(iterator->coordenada.x, 2) + pow(iterator->coordenada.y, 2))   );
 
       iterator = iterator->proximo;
     } 
   }
   printf("\n");
 
-  printf("Destino:\n");
   if(local.destino) {
+    printf(" Destino:\n\n");
     iterator = local.destino;
     while(iterator) {
-      printf("Codigo: %3d| Velocidade: (%3.2f;%3.2f;%3.2f) | Coordenada: (%3.2f;%3.2f;%3.2f)\n", iterator->codigo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
+      printf(" ID: %3d| Local: %s\n", iterator->codigo, iterator->destino);
 
       iterator = iterator->proximo;
     } 
+    printf("\n");
   }
-  printf("---------------------------------------------------------------------------------------------------------------------------------------\n");
+  printf(" ==========================================================================================================================\n");
 }
 
 void MostraLista(Desventura* lista) {
@@ -112,7 +132,7 @@ void ReordenaCeu(Aviao* aviao) {
   Aviao* elemento = Retira(&local.ceu, aviao);
  
   if(!elemento) {
-    printf("Um aviao com esse codigo nao se encontra no ceu!\n");
+    printf(" Um avião com esse código não se encontra no céu!\n");
     return;
   }
 
