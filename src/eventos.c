@@ -235,8 +235,9 @@ void InicializaPistas(int quantidadeDePistas) {
 
   local.quantidadeDePistas = quantidadeDePistas;
 
-  for(int i = 0; i < quantidadeDePistas; i++) local.pista[i] = (Aviao *) malloc(sizeof(Aviao));
-  
+  for(int i = 0; i < quantidadeDePistas; i++) {
+    local.pista[i] = NULL;
+  }
   local.ceu = NULL;
   local.destino = NULL;
 }
