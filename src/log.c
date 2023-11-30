@@ -70,6 +70,6 @@ void logEvent(const char *format, ...){
   vprintf(format, copyargs);
   va_end(args);
   
-  getchar();
+  //getchar();
 
 }

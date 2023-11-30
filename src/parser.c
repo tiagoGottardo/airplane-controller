@@ -18,7 +18,7 @@ void SeparaElementos(const char *linha, char ***elementos, int *numElementos) {
 
   free(linhaCopia);
 
-  *elementos = (char **)malloc(*numElementos * sizeof(char *));
+  *elementos = (char **) malloc(*numElementos * sizeof(char *));
 
   char *linhaCopia2 = strdup(linha);
   char *token = strtok(linhaCopia2, " ,()\n");
@@ -47,6 +47,11 @@ void LeArquivo() {
     SeparaElementos(linha, &elementos, &numElementos);
     
     ChamaFuncoes(elementos, numElementos);
+
+    for(int i = 0; i < numElementos; i++) {
+      free(elementos[i]);
+    }
+    free(elementos);
   }
 
   fclose(arquivo);

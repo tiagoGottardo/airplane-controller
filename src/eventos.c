@@ -194,7 +194,7 @@ void IniciaSimulacao(int totalDeTurnos) {
     while(desventura && desventura->turno == i) Sorteio(&local.ceu, 1);
     AviaoMove(&local.ceu);
 
-    delay(100);
+    //delay(10);
   }
 
   printf(" Fim da simulação.\n\n");
@@ -235,10 +235,8 @@ void InicializaPistas(int quantidadeDePistas) {
 
   local.quantidadeDePistas = quantidadeDePistas;
 
-  for(int i = 0; i < quantidadeDePistas; i++) {
-    local.pista[i] = (Aviao *) malloc(sizeof(Aviao));
-    local.pista[i] = NULL;
-  }
+  for(int i = 0; i < quantidadeDePistas; i++) local.pista[i] = (Aviao *) malloc(sizeof(Aviao));
+  
   local.ceu = NULL;
   local.destino = NULL;
 }
@@ -271,9 +269,12 @@ void SpawnaAviao(int idPista, int codigo, char* modelo, char* destino, int dista
 void Finaliza() {
   for(int i = 0; i < local.quantidadeDePistas; i++) {
     DesalocaAviao(&local.pista[i]);
+    free(local.pista[i]);
   }
   
-  DesalocaAviao(local.pista);
+  free(local.pista);
+  local.pista = NULL;
+
   local.quantidadeDePistas = 0;
 
   DesalocaAviao(&local.ceu);

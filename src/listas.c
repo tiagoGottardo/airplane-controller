@@ -12,6 +12,11 @@ void DesalocaAviao(Aviao** lista) {
     DesalocaAviao(&(*lista)->proximo);
   }
 
+  free((*lista)->modelo);
+  free((*lista)->destino);
+  
+  (*lista)->anterior = NULL;
+
   free(*lista);
   *lista = NULL;
 }
