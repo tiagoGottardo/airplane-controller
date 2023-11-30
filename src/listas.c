@@ -27,21 +27,44 @@ void DesalocaDesventura(Desventura** lista) {
   *lista = NULL;
 }
 
+void VeSituacaoPreSimulacao() {
+  if(!local.pista) {
+    printf("\n Nada para ver!\n\n");
+    return;
+  }
+
+  printf("\n");
+
+  Aviao* iterator;
+  for(int i = 0; i < local.quantidadeDePistas; i++) {
+    printf(" Pista %d:\n", i + 1);
+    if(local.pista[i]) {
+      iterator = local.pista[i];
+
+      while(iterator) {
+        printf(" ID: %3d | Modelo: %15s | Destino: %15s |\n", iterator->codigo, iterator->modelo, iterator->destino);
+       
+        iterator = iterator->proximo;
+      }
+    }
+    printf("\n");
+  }
+
+  printf(" Céu:\n");
+  if(local.ceu) {
+    iterator = local.ceu;
+    while(iterator) {
+      printf(" ID: %3d | Modelo: %15s | Destino: %15s |\n", iterator->codigo, iterator->modelo, iterator->destino);
+       
+      iterator = iterator->proximo;
+    } 
+  }
+  printf("\n");
+
+}
+
 void LogGlobal() {
   Aviao* iterator;
-  // for(int i = 0; i < local.quantidadeDePistas; i++) {
-  //   printf("Pista %d:\n", i + 1);
-  //   if(local.pista[i]) {
-  //     iterator = local.pista[i];
-
-  //     while(iterator) {
-  //       printf("Modelo: %6s | Velocidade: (%3.4f;%3.4f;%3.4f) | Coordenada: (%3.4f;%3.4f;%3.4f)\n", iterator->modelo, iterator->velocidade.x, iterator->velocidade.y, iterator->velocidade.z, iterator->coordenada.x, iterator->coordenada.y, iterator->coordenada.z);
-
-  //       iterator = iterator->proximo;
-  //     }
-  //   }
-  //   printf("\n");
-  // }
 
   printf(" Céu:\n\n");
   if(local.ceu) {

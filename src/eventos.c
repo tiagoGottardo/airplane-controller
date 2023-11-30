@@ -55,9 +55,9 @@ int VerificaColisoes(Aviao* aviao, Aviao* comparacao) {
 void Aterrissa(Aviao* aviao) {
   Aviao* retirado = Retira(&local.ceu, aviao);
 
-  if(retirado->tempoReal < retirado->tempoEstimado) logEvent("O avião %i aterrissou! \nO avião %i chegou antes do esperado!\n", retirado->codigo, retirado->codigo);
-  else if(retirado->tempoReal > retirado->tempoEstimado) logEvent("O avião %i aterrissou! \nO avião %i chegou depois do esperado!\n", retirado->codigo,retirado->codigo);
-  else logEvent("O avião %i aterrissou! \nO avião %i chegou no tempo esperado!\n", retirado->codigo, retirado->codigo);
+  if(retirado->tempoReal < retirado->tempoEstimado) logEvent(" O avião %i aterrissou! \n O avião %i chegou antes do esperado!", retirado->codigo, retirado->codigo);
+  else if(retirado->tempoReal > retirado->tempoEstimado) logEvent(" O avião %i aterrissou! \n O avião %i chegou depois do esperado!", retirado->codigo,retirado->codigo);
+  else logEvent(" O avião %i aterrissou! \n O avião %i chegou no tempo esperado!", retirado->codigo, retirado->codigo);
 
   retirado->estado = CONCLUIDO;
 
@@ -84,7 +84,7 @@ void VerificaAterrissagem(Aviao* aviao) {
 
   if(aviao->estado == VOANDO) {
     aviao->estado = ATERRISSANDO;
-    logEvent("O avião %i começou a aterrissagem.", aviao->codigo);
+    logEvent(" O avião %i começou a aterrissagem.", aviao->codigo);
   }
 
   if(distanciaRestante <= 0.2) {
@@ -98,7 +98,7 @@ void AviaoMove(Aviao** lista) {
   while(iterator) {
     while(iterator->proximo && VerificaColisoes(iterator, iterator->proximo)) colisoes++;
     if(colisoes) {
-      logEvent("Uma colisão entre o avião %i e o avião %i foi evitada.\n", iterator->codigo, iterator->proximo->codigo);
+      logEvent(" Uma colisão entre o avião %i e o avião %i foi evitada.", iterator->codigo, iterator->proximo->codigo);
       colisoes = 0;
     }
 
@@ -117,7 +117,7 @@ void AviaoMove(Aviao** lista) {
 void AplicaDesventura(Aviao** aviao) {
   switch(desventura->tipo) {
     case TEMPESTADE:
-      logEvent("Aconteceu uma tempestade com o avião %i.\n", (*aviao)->codigo);
+      logEvent(" 🌧️ -  Aconteceu uma tempestade com o avião %i.", (*aviao)->codigo);
       if(((MAX_ALTITUDE + MIN_ALTITUDE)/2) >= (*aviao)->coordenada.z) 
         (*aviao)->coordenada.z += dtempestadeA;
       else 
@@ -132,7 +132,7 @@ void AplicaDesventura(Aviao** aviao) {
       }
     break;
     case NEBLINA:
-      logEvent("Aconteceu uma neblina com o avião %i.\n", (*aviao)->codigo);
+      logEvent(" 🌫️  Aconteceu uma neblina com o avião %i.", (*aviao)->codigo);
       if(((MAX_ALTITUDE + MIN_ALTITUDE)/2) >= (*aviao)->coordenada.z) 
         (*aviao)->coordenada.z += dneblinaA;
       else 
@@ -147,7 +147,7 @@ void AplicaDesventura(Aviao** aviao) {
       }
       break;
     case TURBULENCIA:
-      logEvent("Aconteceu uma turbulência com o avião %i.\n", (*aviao)->codigo);
+      logEvent(" 🛩️  Aconteceu uma turbulência com o avião %i.", (*aviao)->codigo);
       (*aviao)->velocidade.x *= dturbulenciaV;
       (*aviao)->velocidade.y *= dturbulenciaV;
     break;
@@ -184,13 +184,13 @@ void IniciaSimulacao(int totalDeTurnos) {
 
     system("clear");
 
-    printf(" ===============================================");
+    printf("\n ==============================================");
     printf(" Simulação aérea - Minuto: %d", i);
-    printf(" ===============================================\n");
+    printf(" ==============================================\n");
     LogGlobal();
 
 
-    while(desventura && desventura->turno == i) Sorteio(&local.ceu, 1); 
+    while(desventura && desventura->turno == i) Sorteio(&local.ceu, 1);
     AviaoMove(&local.ceu);
 
     delay(100);
@@ -208,7 +208,10 @@ void Decola(int numPista) {
 
   float deslocamentoNaDecolagem = NumeroEntre(1500, 2500)/1000.0;
 
-  if(NumeroEntre(0, 1))
+  int valor = 0;
+  for(int i = 0; novoAviao->destino[i] != '\0'; i++) valor += novoAviao->destino[i]; 
+
+  if(valor % 2)
     retirado->coordenada.x = (deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
   else
     retirado->coordenada.x = -(deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
@@ -256,6 +259,7 @@ void SpawnaAviao(int idPista, int codigo, char* modelo, char* destino, int dista
   novoAviao->velocidade.z = 0;
   novoAviao->estado = ESPERANDO;
   novoAviao->destino = destino;
+  novoAviao->modelo = modelo;
   
   int valor = 0;
   for(int i = 0; novoAviao->destino[i] != '\0'; i++) valor += novoAviao->destino[i]; 

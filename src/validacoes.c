@@ -51,7 +51,7 @@ void InsereAviao(void **parametros) {
 
   }
 
-  printf("\n O avião Id:%d foi adicionado na pista %d.\n\n", *codigo, *pista);
+  printf("\n O avião %d foi adicionado na pista %d.\n\n", *codigo, *pista);
   SpawnaAviao(*pista, *codigo, strdup(modelo), strdup(destino), *distancia, *tempoEstimado);
 }
 
@@ -75,7 +75,7 @@ void Decolar(void **parametros) {
     return;
   }
 
-  printf("\n O avião Id:%d decolou!\n\n", local.pista[*pista - 1]->codigo);
+  printf("\n O avião %d decolou!\n\n", local.pista[*pista - 1]->codigo);
   Decola(*pista);
 }
 
