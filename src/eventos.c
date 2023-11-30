@@ -55,8 +55,8 @@ int VerificaColisoes(Aviao* aviao, Aviao* comparacao) {
 void Aterrissa(Aviao* aviao) {
   Aviao* retirado = Retira(&local.ceu, aviao);
 
-  if(retirado->tempoReal < retirado->tempoEstimado) logEvent(" O avião %i aterrissou! \n O avião %i chegou antes do esperado!", retirado->codigo, retirado->codigo);
-  else if(retirado->tempoReal > retirado->tempoEstimado) logEvent(" O avião %i aterrissou! \n O avião %i chegou depois do esperado!", retirado->codigo,retirado->codigo);
+  if(retirado->tempoReal < retirado->tempoEstimado*1.05) logEvent(" O avião %i aterrissou! \n O avião %i chegou antes do esperado!", retirado->codigo, retirado->codigo);
+  else if(retirado->tempoReal > retirado->tempoEstimado*1.1) logEvent(" O avião %i aterrissou! \n O avião %i chegou depois do esperado!", retirado->codigo,retirado->codigo);
   else logEvent(" O avião %i aterrissou! \n O avião %i chegou no tempo esperado!", retirado->codigo, retirado->codigo);
 
   retirado->estado = CONCLUIDO;
@@ -180,6 +180,7 @@ int Sorteio(Aviao** aviao, int ticket) {
 }
 
 void IniciaSimulacao(int totalDeTurnos) {
+
   for(int i = 1; i <= totalDeTurnos; i++) {
 
     system("clear");
@@ -209,7 +210,7 @@ void Decola(int numPista) {
   float deslocamentoNaDecolagem = NumeroEntre(1500, 2500)/1000.0;
 
   int valor = 0;
-  for(int i = 0; novoAviao->destino[i] != '\0'; i++) valor += novoAviao->destino[i]; 
+  for(int i = 0; retirado->destino[i] != '\0'; i++) valor += retirado->destino[i]; 
 
   if(valor % 2)
     retirado->coordenada.x = (deslocamentoNaDecolagem)/(sqrt(pow(retirado->direcao, 2) + 1));
