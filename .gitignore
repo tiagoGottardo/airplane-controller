@@ -4,3 +4,5 @@ logfile.txt
 
 build/**
 !build/.gitkeep
+
+vgcore.*
