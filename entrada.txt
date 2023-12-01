@@ -53,4 +53,4 @@ tempestade 2
 neblina 3
 turbulencia 4 
 iniciasimulacao 500
-fim
+fim 
