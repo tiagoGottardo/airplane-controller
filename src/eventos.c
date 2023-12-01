@@ -198,10 +198,6 @@ void IniciaSimulacao(int totalDeTurnos) {
   }
 
   printf(" Fim da simulação.\n\n");
-
-
-  Finaliza(); 
-  exit(0);
 }
 
 void Decola(int numPista) {
@@ -268,6 +264,7 @@ void SpawnaAviao(int idPista, int codigo, char* modelo, char* destino, int dista
 }
 
 void Finaliza() {
+  char inscan;
   for(int i = 0; i < local.quantidadeDePistas; i++) {
     DesalocaAviao(&local.pista[i]);
     free(local.pista[i]);
@@ -282,5 +279,9 @@ void Finaliza() {
   DesalocaAviao(&local.destino);
 
   DesalocaDesventura(&desventura);
+
+  // printf("Deseja simular outra vez? s/n");
+  // scanf("%c", &inscan);
+  // if(inscan == 'n'||inscan == 'N') exit(0);
 }
 
