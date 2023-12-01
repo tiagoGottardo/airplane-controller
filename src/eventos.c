@@ -117,7 +117,7 @@ void AviaoMove(Aviao** lista) {
 void AplicaDesventura(Aviao** aviao) {
   switch(desventura->tipo) {
     case TEMPESTADE:
-      logEvent(" 🌧️ -  Aconteceu uma tempestade com o avião %i.", (*aviao)->codigo);
+      logEvent(" 🌧️  Aconteceu uma tempestade com o avião %i.", (*aviao)->codigo);
       if(((MAX_ALTITUDE + MIN_ALTITUDE)/2) >= (*aviao)->coordenada.z) 
         (*aviao)->coordenada.z += dtempestadeA;
       else 
@@ -194,7 +194,7 @@ void IniciaSimulacao(int totalDeTurnos) {
     while(desventura && desventura->turno == i) Sorteio(&local.ceu, 1);
     AviaoMove(&local.ceu);
 
-    //delay(10);
+    delay(100);
   }
 
   printf(" Fim da simulação.\n\n");
@@ -264,7 +264,6 @@ void SpawnaAviao(int idPista, int codigo, char* modelo, char* destino, int dista
 }
 
 void Finaliza() {
-  char inscan;
   for(int i = 0; i < local.quantidadeDePistas; i++) {
     DesalocaAviao(&local.pista[i]);
     free(local.pista[i]);
@@ -279,9 +278,5 @@ void Finaliza() {
   DesalocaAviao(&local.destino);
 
   DesalocaDesventura(&desventura);
-
-  // printf("Deseja simular outra vez? s/n");
-  // scanf("%c", &inscan);
-  // if(inscan == 'n'||inscan == 'N') exit(0);
 }
 
