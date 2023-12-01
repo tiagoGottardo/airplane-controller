@@ -49,22 +49,20 @@ void Cli() {
 void IniciaInterface() {
   char input[128];
   
-  while(1) {
-    printf(" =========================================== ✈️");
-    printf("  Simulação de trafego aéreo");
-    printf(" ✈️  ==========================================\n");
-    //printf("================== Simulador de tráfego aéreo =================\n\n");
-    printf("\nImportar um (a)rquivo | Digitar comandos (m)anualmente [a, m]:");
+  printf(" =========================================== ✈️");
+  printf("  Simulação de trafego aéreo");
+  printf(" ✈️  ==========================================\n");
+  //printf("================== Simulador de tráfego aéreo =================\n\n");
+  printf("\nImportar um (a)rquivo | Digitar comandos (m)anualmente [a, m]:");
     
-    scanf(" %[^\n]", input);  
-    initLogFile();
+  scanf(" %[^\n]", input);  
+  initLogFile();
 
-    system("clear");
+  system("clear");
   
-    switch(input[0]) {
-      case 'a': LeArquivo(); break;
-      case 'm': Cli(); break;
-    }
-
+  switch(input[0]) {
+    case 'a': LeArquivo(); break;
+    case 'm': Cli(); break;
   }
+
 }
