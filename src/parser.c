@@ -55,6 +55,7 @@ void LeArquivo() {
   }
 
   fclose(arquivo);
+  arquivo=NULL;
 
   return;
 }
